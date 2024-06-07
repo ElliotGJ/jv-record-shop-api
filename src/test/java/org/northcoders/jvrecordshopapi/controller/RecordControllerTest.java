@@ -11,6 +11,7 @@ import org.northcoders.jvrecordshopapi.service.RecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -29,11 +30,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 class RecordControllerTest {
 
-    @Mock
+    @MockBean
     private RecordService recordService;
 
     @Autowired
-    RecordController recordController;
+    private RecordController recordController;
 
     @Autowired
     private MockMvc mockRecordController;
@@ -55,6 +56,7 @@ class RecordControllerTest {
     @Test
     @DisplayName("Get /records")
     void getAllRecords() throws Exception{
+
         given(recordService.getAllRecords()).willReturn(testRecords);
 
         mockRecordController.perform(get("/api/records")
