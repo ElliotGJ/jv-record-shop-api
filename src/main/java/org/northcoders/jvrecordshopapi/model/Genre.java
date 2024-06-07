@@ -15,7 +15,7 @@ public class Genre {
     Long id;
 
     @Column(nullable = false, updatable=false)
-    String genre;
+    String name;
 
     @ManyToMany
     @JoinTable(
