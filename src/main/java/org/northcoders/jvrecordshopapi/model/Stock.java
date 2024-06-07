@@ -1,11 +1,15 @@
 package org.northcoders.jvrecordshopapi.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "Stock")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Stock {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

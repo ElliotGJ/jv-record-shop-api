@@ -1,7 +1,9 @@
 package org.northcoders.jvrecordshopapi.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.Year;
 import java.util.List;
@@ -10,6 +12,8 @@ import java.util.Set;
 @Entity
 @Table(name = "Records")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Record {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
