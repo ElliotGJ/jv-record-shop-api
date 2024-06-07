@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.Year;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -18,8 +19,12 @@ public class Record {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
-    private String artist;
+    @ManyToMany
+    @JoinTable(
+            name="artists_records",
+            joinColumns = @JoinColumn(name = "artist_id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "record_id", nullable = false))
+    private List<Artist> artists;
 
     @Column(nullable = false)
     private Year releaseYear;

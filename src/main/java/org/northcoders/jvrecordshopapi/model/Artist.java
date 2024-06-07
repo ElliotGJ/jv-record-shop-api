@@ -17,6 +17,6 @@ public class Artist {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany(mappedBy="artist", fetch = FetchType.LAZY)
-    private Set<Record> records;
+    @ManyToMany(mappedBy = "artists", fetch = FetchType.LAZY)
+    Set<Record> records;
 }

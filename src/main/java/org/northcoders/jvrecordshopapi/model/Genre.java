@@ -19,7 +19,7 @@ public class Genre {
 
     @ManyToMany
     @JoinTable(
-            name="album_genres",
+            name="records_genres",
             joinColumns = @JoinColumn(name = "genre_id"),
             inverseJoinColumns = @JoinColumn(name = "record_id"))
     Set<Record> records;
