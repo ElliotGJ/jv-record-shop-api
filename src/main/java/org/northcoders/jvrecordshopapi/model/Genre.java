@@ -1,5 +1,6 @@
 package org.northcoders.jvrecordshopapi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,6 +22,7 @@ public class Genre {
     @Column(nullable = false, updatable=false)
     String name;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name="records_genres",
