@@ -69,7 +69,7 @@ class RecordServiceTest {
     @DisplayName("Return all records in genre")
     void getAllRecordsInGenreTest() {
         given(genreRepository.findByName("Metal")).willReturn(metal);
-        List<Record> results = recordService.getAllRecordsGenre("Metal");
+        List<Record> results = recordService.getAllRecordsInGenre("Metal");
         assertThat(results.size()).isEqualTo(metal.getRecords().size());
         assertThat(results.get(0).getGenres()).isEqualTo(genres);
     }
