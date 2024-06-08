@@ -3,6 +3,7 @@ package org.northcoders.jvrecordshopapi.controller;
 
 import org.northcoders.jvrecordshopapi.model.Record;
 import org.northcoders.jvrecordshopapi.service.RecordService;
+import org.northcoders.jvrecordshopapi.service.dto.RecordDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,13 +23,13 @@ public class RecordController {
     @Autowired
     RecordService recordService;
 
-//    @GetMapping
-//    public ResponseEntity<List<Record>> getAllRecords() {
-//        return new ResponseEntity<>(recordService.getAllRecords(), HttpStatus.OK);
-//    }
+    @GetMapping
+    public ResponseEntity<List<RecordDTO>> getAllRecords() {
+        return new ResponseEntity<>(recordService.getAllRecords(), HttpStatus.OK);
+    }
 
     @GetMapping("/{genre}")
-    public ResponseEntity<List<Record>> getAllRecordsInGenre(@PathVariable String genre) {
+    public ResponseEntity<List<RecordDTO>> getAllRecordsInGenre(@PathVariable String genre) {
         return new ResponseEntity<>(recordService.getAllRecordsInGenre(genre), HttpStatus.OK);
     }
 }

@@ -4,6 +4,8 @@ import org.northcoders.jvrecordshopapi.model.Genre;
 import org.northcoders.jvrecordshopapi.model.Record;
 import org.northcoders.jvrecordshopapi.repository.GenreRepository;
 import org.northcoders.jvrecordshopapi.repository.RecordRepository;
+import org.northcoders.jvrecordshopapi.service.dto.RecordDTO;
+import org.northcoders.jvrecordshopapi.service.dto.RecordDTOMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,18 +19,22 @@ public class RecordService {
     RecordRepository recordRepository;
 
     @Autowired
+    RecordDTOMapper recordDTOMapper;
+
+    @Autowired
     GenreRepository genreRepository;
 
-    public List<Record> getAllRecords() {
-        List<Record> records = new ArrayList<>();
-        recordRepository.findAll().forEach(records::add);
-        return records;
+    public List<RecordDTO> getAllRecords() {
+        List<RecordDTO> recordDtos = new ArrayList<>();
+        recordRepository.findAll().forEach(record -> recordDtos.add(recordDTOMapper.apply(record)));
+        return recordDtos;
     }
 
-    public List<Record> getAllRecordsInGenre(String genreName) {
-        Genre genre;
-        genre = genreRepository.findByName(genreName);
-        return genre.getRecords().stream().toList();
+    public List<RecordDTO> getAllRecordsInGenre(String genreName) {
+        Genre genre = genreRepository.findByName(genreName);
+        List<RecordDTO> recordDtos = new ArrayList<>();
+        genre.getRecords().forEach(record -> recordDtos.add(recordDTOMapper.apply(record)));
+        return recordDtos;
     }
 
 }
