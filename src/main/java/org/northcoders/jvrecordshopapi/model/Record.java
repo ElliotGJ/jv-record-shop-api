@@ -1,9 +1,7 @@
 package org.northcoders.jvrecordshopapi.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.Year;
 import java.util.List;
@@ -11,7 +9,8 @@ import java.util.Set;
 
 @Entity
 @Table(name = "Records")
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Record {
@@ -28,7 +27,8 @@ public class Record {
             name="artists_records",
             joinColumns = @JoinColumn(name = "artist_id", nullable = false),
             inverseJoinColumns = @JoinColumn(name = "record_id", nullable = false))
-    private List<Artist> artists;
+    private Set<Artist> artists;
+
 
     @Column(nullable = false)
     private Year releaseYear;
@@ -37,5 +37,6 @@ public class Record {
     private Set<Genre> genres;
 
     @OneToOne
+    @JoinColumn(name = "stock_id", referencedColumnName = "id", nullable = false, updatable = false)
     private Stock stock;
 }
