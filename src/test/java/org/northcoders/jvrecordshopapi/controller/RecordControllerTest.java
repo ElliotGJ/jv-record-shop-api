@@ -4,12 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.northcoders.jvrecordshopapi.model.Genre;
-import org.northcoders.jvrecordshopapi.model.Record;
 import org.northcoders.jvrecordshopapi.service.RecordService;
-import org.northcoders.jvrecordshopapi.service.dto.RecordDTO;
+import org.northcoders.jvrecordshopapi.dto.RecordDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.metrics.MetricsEndpoint;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -22,8 +19,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.time.Year;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.BDDMockito.given;
@@ -81,19 +76,32 @@ class RecordControllerTest {
                 .andExpect(jsonPath("$", hasSize(3)))
                 .andExpect(jsonPath("$[0].name", is(testRecordDTOs.get(0).name())))
                 .andExpect(jsonPath("$[1].genres", is(testRecordDTOs.get(1).genres())));
-
     }
+
 
     @Test
     @DisplayName("Get /records by genre")
     void getAllRecordsByGenreTest() throws Exception {
         given(recordService.getAllRecordsInGenre("Metal")).willReturn(testRecordMetalDTOs);
 
-        mockRecordController.perform(get("/api/records/Metal")
+        mockRecordController.perform(get("/api/records?genre=Metal")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].name", is(testRecordMetalDTOs.get(0).name())))
                 .andExpect(jsonPath("$[1].stock", is(testRecordMetalDTOs.get(1).stock())));
     }
+
+    @Test
+    @DisplayName("Get /records by id")
+    void getRecordById() throws Exception {
+        given(recordService.getRecordById(2L)).willReturn(testRecordDTOs.get(1));
+
+        mockRecordController.perform(get("/api/records/2")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name", is(testRecordDTOs.get(1).name())))
+                .andExpect(jsonPath("$.stock", is(testRecordDTOs.get(1).stock())));
+    }
+
 }
