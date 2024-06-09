@@ -1,6 +1,7 @@
-package org.northcoders.jvrecordshopapi.service.dto;
+package org.northcoders.jvrecordshopapi.dto;
 
 import org.junit.jupiter.api.Test;
+import org.northcoders.jvrecordshopapi.dto.RecordDTOMapper;
 import org.northcoders.jvrecordshopapi.model.Artist;
 import org.northcoders.jvrecordshopapi.model.Genre;
 import org.northcoders.jvrecordshopapi.model.Record;
@@ -9,11 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.Year;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class RecordDTOMapperTest {
@@ -21,8 +19,6 @@ class RecordDTOMapperTest {
 
     @Autowired
     RecordDTOMapper recordDTOMapper;
-
-//    RecordDTOMapper recordDTOMapper = new RecordDTOMapper();
 
     @Test
     void apply() {

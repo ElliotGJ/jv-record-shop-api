@@ -6,20 +6,21 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
+import org.northcoders.jvrecordshopapi.exception.ItemNotFoundException;
 import org.northcoders.jvrecordshopapi.model.Genre;
 import org.northcoders.jvrecordshopapi.model.Record;
 import org.northcoders.jvrecordshopapi.model.Stock;
 import org.northcoders.jvrecordshopapi.repository.GenreRepository;
 import org.northcoders.jvrecordshopapi.repository.RecordRepository;
-import org.northcoders.jvrecordshopapi.service.dto.RecordDTO;
-import org.northcoders.jvrecordshopapi.service.dto.RecordDTOMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.northcoders.jvrecordshopapi.dto.RecordDTO;
+import org.northcoders.jvrecordshopapi.dto.RecordDTOMapper;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.time.Year;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 
 @DataJpaTest
@@ -75,7 +76,6 @@ class RecordServiceTest {
     }
 
 
-
     @Test
     @DisplayName("Return all records")
     void getAllRecordsTest() {
@@ -88,9 +88,32 @@ class RecordServiceTest {
     @Test
     @DisplayName("Return all records in genre")
     void getAllRecordsInGenreTest() {
-        given(genreRepository.findByName("Metal")).willReturn(metal);
+        given(genreRepository.findByName("Metal")).willReturn(Optional.ofNullable(metal));
         List<RecordDTO> results = recordService.getAllRecordsInGenre("Metal");
         assertThat(results.size()).isEqualTo(metal.getRecords().size());
         assertThat(results.get(0).genres()).isEqualTo(genres.stream().map(Genre::getName).toList());
     }
+
+    @Test
+    @DisplayName("Throw error with invalid genre")
+    void throwByInvalidGenreTest() {
+        given(genreRepository.findByName("Meetal")).willReturn(Optional.empty());
+        assertThrows(ItemNotFoundException.class, () -> recordService.getAllRecordsInGenre("Meetal"));
+    }
+    @Test
+    @DisplayName("Return record by id")
+    void getRecordByIdTest() {
+        given(recordRepository.findById(2L)).willReturn(Optional.ofNullable(testRecords.get(1)));
+        RecordDTO result = recordService.getRecordById(2L);
+        assertThat(result).isEqualTo(testRecordDTOs.get(1));
+    }
+
+    @Test
+    @DisplayName("Throw error with wrong id")
+    void throwByInvalidIdTest() {
+        given(recordRepository.findById(5L)).willReturn(Optional.empty());
+        assertThrows(ItemNotFoundException.class, () -> recordService.getRecordById(5L));
+    }
+
+
 }

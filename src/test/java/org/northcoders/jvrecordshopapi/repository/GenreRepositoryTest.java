@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 @Transactional
@@ -20,7 +22,7 @@ class GenreRepositoryTest {
         Genre genre = new Genre();
         genre.setName("Metal");
         genre = genreRepository.save(genre);
-        Genre result = genreRepository.findByName("Metal");
-        assertThat(result).isEqualTo(genre);
+        Optional<Genre> result = genreRepository.findByName("Metal");
+        assertThat(result.get()).isEqualTo(genre);
     }
 }

@@ -1,10 +1,9 @@
-package org.northcoders.jvrecordshopapi.service.dto;
+package org.northcoders.jvrecordshopapi.dto;
 
 import org.northcoders.jvrecordshopapi.model.Artist;
 import org.northcoders.jvrecordshopapi.model.Genre;
 import org.northcoders.jvrecordshopapi.model.Record;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.util.function.Function;
 

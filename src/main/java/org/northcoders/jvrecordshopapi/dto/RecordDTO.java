@@ -1,4 +1,4 @@
-package org.northcoders.jvrecordshopapi.service.dto;
+package org.northcoders.jvrecordshopapi.dto;
 
 import java.time.Year;
 import java.util.List;
