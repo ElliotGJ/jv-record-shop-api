@@ -3,7 +3,7 @@ package org.northcoders.jvrecordshopapi.dto;
 import java.time.Year;
 import java.util.List;
 
-public record RecordDTO(
+public record RecordDto(
         long id,
         String name,
         List<String> artists,
@@ -12,3 +12,4 @@ public record RecordDTO(
         int stock)
 {
 }
+

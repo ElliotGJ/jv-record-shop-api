@@ -1,7 +1,6 @@
 package org.northcoders.jvrecordshopapi.dto;
 
 import org.junit.jupiter.api.Test;
-import org.northcoders.jvrecordshopapi.dto.RecordDTOMapper;
 import org.northcoders.jvrecordshopapi.model.Artist;
 import org.northcoders.jvrecordshopapi.model.Genre;
 import org.northcoders.jvrecordshopapi.model.Record;
@@ -14,14 +13,14 @@ import java.util.HashSet;
 import java.util.List;
 
 @SpringBootTest
-class RecordDTOMapperTest {
+class MapperTest {
 
 
     @Autowired
-    RecordDTOMapper recordDTOMapper;
+    Mapper mapper;
 
     @Test
-    void apply() {
+    void toRecordDto() {
         Record record1 = new Record(1L, "Record One", new HashSet<>(),
                 Year.of(2022), new HashSet<>(), new Stock());
 
@@ -30,6 +29,6 @@ class RecordDTOMapperTest {
         Artist artist = new Artist(1L, "Lewis", new HashSet<>(List.of(record1)));
         record1.setArtists(new HashSet<>(List.of(artist)));
 
-        System.out.println(recordDTOMapper.apply(record1));
+        System.out.println(mapper.toRecordDto(record1));
     }
 }
