@@ -18,7 +18,7 @@ public class Genre {
     @Column(updatable = false, nullable = false)
     Long id;
 
-    @Column(nullable = false, updatable=false)
+    @Column(unique = true, nullable = false, updatable=false)
     String name;
 
 
