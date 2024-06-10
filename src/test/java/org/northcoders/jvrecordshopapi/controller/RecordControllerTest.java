@@ -5,7 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.northcoders.jvrecordshopapi.service.RecordService;
-import org.northcoders.jvrecordshopapi.dto.RecordDTO;
+import org.northcoders.jvrecordshopapi.dto.RecordDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -40,51 +40,51 @@ class RecordControllerTest {
     private MockMvc mockRecordController;
 
     private ObjectMapper mapper;
-    private List<RecordDTO> testRecordDTOs;
-    private List<RecordDTO> testRecordMetalDTOs;
+    private List<RecordDto> testRecordDtos;
+    private List<RecordDto> testRecordMetalDTOs;
 
     @BeforeEach
     public void setup() {
         mockRecordController = MockMvcBuilders.standaloneSetup(recordController).build();
         mapper = new ObjectMapper();
-        testRecordDTOs = new ArrayList<>();
-        RecordDTO recordDto1 = new RecordDTO(1L, "Record One", new ArrayList<>(List.of()),
+        testRecordDtos = new ArrayList<>();
+        RecordDto recordDto1 = new RecordDto(1L, "Record One", new ArrayList<>(List.of()),
                 Year.of(2022), new ArrayList<>(List.of("")), 0);
-        testRecordDTOs.add(recordDto1);
+        testRecordDtos.add(recordDto1);
         testRecordMetalDTOs = new ArrayList<>();
-        RecordDTO recordDto2 = new RecordDTO(2L, "Record Two", new ArrayList<>(List.of()),
+        RecordDto recordDto2 = new RecordDto(2L, "Record Two", new ArrayList<>(List.of()),
                 Year.of(2016), new ArrayList<>(List.of("Metal")), 0);
-        testRecordDTOs.add(recordDto2);
+        testRecordDtos.add(recordDto2);
         testRecordMetalDTOs.add(recordDto2);
 
-        RecordDTO recordDto3 = new RecordDTO(3L, "Record Three", new ArrayList<>(List.of()),
+        RecordDto recordDto3 = new RecordDto(3L, "Record Three", new ArrayList<>(List.of()),
                 Year.of(2020), new ArrayList<>(List.of("Metal")), 0);
-        testRecordDTOs.add(recordDto3);
+        testRecordDtos.add(recordDto3);
         testRecordMetalDTOs.add(recordDto3);
 
     }
 
     @Test
-    @DisplayName("Get /records")
+    @DisplayName("Get /record")
     void getAllRecords() throws Exception {
 
-        given(recordService.getAllRecords()).willReturn(testRecordDTOs);
+        given(recordService.getAllRecords()).willReturn(testRecordDtos);
 
-        mockRecordController.perform(get("/api/records")
+        mockRecordController.perform(get("/api/record")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(3)))
-                .andExpect(jsonPath("$[0].name", is(testRecordDTOs.get(0).name())))
-                .andExpect(jsonPath("$[1].genres", is(testRecordDTOs.get(1).genres())));
+                .andExpect(jsonPath("$[0].name", is(testRecordDtos.get(0).name())))
+                .andExpect(jsonPath("$[1].genres", is(testRecordDtos.get(1).genres())));
     }
 
 
     @Test
-    @DisplayName("Get /records by genre")
+    @DisplayName("Get /record by genre")
     void getAllRecordsByGenreTest() throws Exception {
         given(recordService.getAllRecordsInGenre("Metal")).willReturn(testRecordMetalDTOs);
 
-        mockRecordController.perform(get("/api/records?genre=Metal")
+        mockRecordController.perform(get("/api/record?genre=Metal")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
@@ -93,15 +93,22 @@ class RecordControllerTest {
     }
 
     @Test
-    @DisplayName("Get /records by id")
+    @DisplayName("Get /record by id")
     void getRecordById() throws Exception {
-        given(recordService.getRecordById(2L)).willReturn(testRecordDTOs.get(1));
+        given(recordService.getRecordById(2L)).willReturn(testRecordDtos.get(1));
 
-        mockRecordController.perform(get("/api/records/2")
+        mockRecordController.perform(get("/api/record/2")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name", is(testRecordDTOs.get(1).name())))
-                .andExpect(jsonPath("$.stock", is(testRecordDTOs.get(1).stock())));
+                .andExpect(jsonPath("$.name", is(testRecordDtos.get(1).name())))
+                .andExpect(jsonPath("$.stock", is(testRecordDtos.get(1).stock())));
     }
+
+//    @Test
+//    @DisplayName("Add new /record")
+//    void addNewRecordTest() throws Exception {
+//        RecordDto testRecord = new RecordDto(null, "Record", )
+//        given(recordService.addNewRecord()).willReturn();
+//    }
 
 }

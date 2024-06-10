@@ -1,8 +1,9 @@
 package org.northcoders.jvrecordshopapi.controller;
 
 
+import org.northcoders.jvrecordshopapi.dto.RecordCreationDto;
 import org.northcoders.jvrecordshopapi.service.RecordService;
-import org.northcoders.jvrecordshopapi.dto.RecordDTO;
+import org.northcoders.jvrecordshopapi.dto.RecordDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,14 +14,14 @@ import java.util.Objects;
 
 
 @RestController
-@RequestMapping("api/records")
+@RequestMapping("api/record")
 public class RecordController {
 
     @Autowired
     RecordService recordService;
 
     @GetMapping
-    public ResponseEntity<List<RecordDTO>> getAllRecords(@RequestParam(required = false) String genre) {
+    public ResponseEntity<List<RecordDto>> getAllRecords(@RequestParam(required = false) String genre) {
         if (Objects.isNull(genre)) {
             return new ResponseEntity<>(recordService.getAllRecords(), HttpStatus.OK);
         }
@@ -28,8 +29,12 @@ public class RecordController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RecordDTO> getRecordById(@PathVariable long id) {
+    public ResponseEntity<RecordDto> getRecordById(@PathVariable long id) {
         return new ResponseEntity<>(recordService.getRecordById(id), HttpStatus.OK);
     }
 
+    @PostMapping
+    public ResponseEntity<RecordDto> addNewRecord(@RequestBody RecordCreationDto creationDto) {
+        return new ResponseEntity<>(recordService.addNewRecord(creationDto), HttpStatus.CREATED);
+    }
 }

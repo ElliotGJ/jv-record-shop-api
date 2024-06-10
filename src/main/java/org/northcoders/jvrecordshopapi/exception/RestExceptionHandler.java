@@ -1,5 +1,6 @@
 package org.northcoders.jvrecordshopapi.exception;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -13,8 +14,13 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(apiError, apiError.getHttpStatus());
     }
 
-    @ExceptionHandler(ItemNotFoundException.class)
-    public ResponseEntity<Object> handleItemNotFoundException(ItemNotFoundException e) {
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<Object> handleItemNotFoundException(EntityNotFoundException e) {
         return buildResponseEntity(new ApiError(HttpStatus.NOT_FOUND, e));
+    }
+
+    @ExceptionHandler(DuplicateEntryException.class)
+    public ResponseEntity<Object> handleItemNotFoundException(DuplicateEntryException e) {
+        return buildResponseEntity(new ApiError(HttpStatus.CONFLICT, e));
     }
 }

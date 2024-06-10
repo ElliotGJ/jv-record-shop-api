@@ -28,6 +28,6 @@ public class Mapper {
                 new HashSet<>(),
                 creationDto.releaseYear(),
                 new HashSet<>(),
-                null);
+                new Stock());
     }
 }

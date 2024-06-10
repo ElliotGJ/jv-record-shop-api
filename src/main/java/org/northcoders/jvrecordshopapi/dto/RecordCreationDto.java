@@ -8,6 +8,6 @@ public record RecordCreationDto(
         List<Long> artistIds,
         Year releaseYear,
         List<String> genres,
-        int Stock)
+        int stock)
 {
 }

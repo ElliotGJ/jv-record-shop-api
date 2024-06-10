@@ -1,18 +1,16 @@
 package org.northcoders.jvrecordshopapi.service;
 
-import org.northcoders.jvrecordshopapi.exception.ItemNotFoundException;
-import org.northcoders.jvrecordshopapi.model.Genre;
+import jakarta.persistence.EntityNotFoundException;
+import org.northcoders.jvrecordshopapi.dto.RecordCreationDto;
 import org.northcoders.jvrecordshopapi.model.Record;
-import org.northcoders.jvrecordshopapi.repository.GenreRepository;
 import org.northcoders.jvrecordshopapi.repository.RecordRepository;
-import org.northcoders.jvrecordshopapi.dto.RecordDTO;
-import org.northcoders.jvrecordshopapi.dto.RecordDTOMapper;
+import org.northcoders.jvrecordshopapi.dto.RecordDto;
+import org.northcoders.jvrecordshopapi.dto.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -22,33 +20,49 @@ public class RecordService {
     RecordRepository recordRepository;
 
     @Autowired
-    RecordDTOMapper recordDTOMapper;
+    Mapper mapper;
 
     @Autowired
-    GenreRepository genreRepository;
+    ArtistService artistService;
 
-    public List<RecordDTO> getAllRecords() {
-        List<RecordDTO> recordDtos = new ArrayList<>();
-        recordRepository.findAll().forEach(record -> recordDtos.add(recordDTOMapper.apply(record)));
+    @Autowired
+    GenreService genreService;
+
+    public List<RecordDto> getAllRecords() {
+        List<RecordDto> recordDtos = new ArrayList<>();
+        recordRepository.findAll().forEach(record -> recordDtos.add(mapper.toRecordDto(record)));
         return recordDtos;
     }
 
-    public List<RecordDTO> getAllRecordsInGenre(String genreName) {
-        Optional<Genre> genre = genreRepository.findByName(genreName);
-        if (genre.isEmpty()) {
-            throw new ItemNotFoundException("Genre: " + genreName + " not found.");
-        }
-        List<RecordDTO> recordDtos = new ArrayList<>();
-        genre.get().getRecords().forEach(record -> recordDtos.add(recordDTOMapper.apply(record)));
+    public List<RecordDto> getAllRecordsInGenre(String genreName) {
+        List<RecordDto> recordDtos = new ArrayList<>();
+        genreService.getGenreByName(genreName).getRecords().forEach(record -> recordDtos.add(mapper.toRecordDto(record)));
         return recordDtos;
     }
 
-    public RecordDTO getRecordById(long id) {
+    public RecordDto getRecordById(long id) {
         Optional<Record> result = recordRepository.findById(id);
         if (result.isEmpty()) {
-            throw new ItemNotFoundException("Record: " + id + " not found.");
+            throw new EntityNotFoundException("Record: " + id + " not found.");
         }
-        return recordDTOMapper.apply(result.get());
+        return mapper.toRecordDto(result.get());
+    }
+
+    public RecordDto addNewRecord(RecordCreationDto creationDto) {
+        Record record = mapper.creationDtoToRecord(creationDto);
+
+        record.setArtists(artistService.getArtistsFromIds(creationDto.artistIds()));
+        record.getArtists().forEach(artist -> artist.getRecords().add(record));
+
+        record.setGenres(genreService.getGenresFromName(creationDto.genres()));
+        record.getGenres().forEach(genre -> genre.getRecords().add(record));
+
+        record.getStock().setRecord(record);
+        record.getStock().setStock(creationDto.stock());
+
+        Record savedRecord = recordRepository.save(record);
+
+        return mapper.toRecordDto(savedRecord);
     }
 
 }
