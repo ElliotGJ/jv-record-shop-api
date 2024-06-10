@@ -36,7 +36,7 @@ public class Record {
     @ManyToMany(mappedBy = "records")
     private Set<Genre> genres;
 
-    @OneToOne
-    @JoinColumn(name = "stock_id", referencedColumnName = "id", nullable = false, updatable = false)
+    @OneToOne(mappedBy = "record", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
     private Stock stock;
 }
