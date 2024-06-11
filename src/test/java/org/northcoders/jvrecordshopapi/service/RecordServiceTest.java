@@ -15,13 +15,14 @@ import org.northcoders.jvrecordshopapi.repository.RecordRepository;
 import org.northcoders.jvrecordshopapi.dto.RecordDto;
 import org.northcoders.jvrecordshopapi.dto.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.autoconfigure.metrics.data.RepositoryMetricsAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.time.Year;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 
 @DataJpaTest
@@ -44,7 +45,6 @@ class RecordServiceTest {
 
     @InjectMocks
     RecordService recordService;
-
 
     @BeforeEach
     void setup() {
@@ -81,7 +81,7 @@ class RecordServiceTest {
 
     @Test
     @DisplayName("Return all records")
-    void getAllRecordsTest() {
+    void getAllRecordsTest() throws Exception {
         given(recordRepository.findAll()).willReturn(testRecords);
         List<RecordDto> results = recordService.getAllRecords();
         assertThat(results.size()).isEqualTo(testRecordDtos.size());
@@ -90,7 +90,7 @@ class RecordServiceTest {
 
     @Test
     @DisplayName("Return all records in genre")
-    void getAllRecordsInGenreTest() {
+    void getAllRecordsInGenreTest() throws Exception {
         given(genreService.getGenreByName("Metal")).willReturn(metal);
         List<RecordDto> results = recordService.getAllRecordsInGenre("Metal");
         assertThat(results.size()).isEqualTo(metal.getRecords().size());
@@ -100,7 +100,7 @@ class RecordServiceTest {
 
     @Test
     @DisplayName("Return record by id")
-    void getRecordByIdTest() {
+    void getRecordByIdTest() throws Exception {
         given(recordRepository.findById(2L)).willReturn(Optional.ofNullable(testRecords.get(1)));
         RecordDto result = recordService.getRecordById(2L);
         assertThat(result).isEqualTo(testRecordDtos.get(1));
@@ -108,10 +108,18 @@ class RecordServiceTest {
 
     @Test
     @DisplayName("Throw error with wrong id")
-    void throwByInvalidIdTest() {
+    void throwByInvalidIdTest() throws Exception {
         given(recordRepository.findById(5L)).willReturn(Optional.empty());
         assertThrows(EntityNotFoundException.class, () -> recordService.getRecordById(5L));
     }
 
+    @Test
+    @DisplayName("Deletes record from id")
+    void deleteRecordByIdTest() throws Exception {
+        given(recordRepository.findById(1L)).willReturn(Optional.of(testRecords.get(0)));
+        given(recordRepository.findById(2L)).willReturn(Optional.empty());
 
+        assertTrue(recordService.deleteRecordById(1L));
+        assertThrows(EntityNotFoundException.class, () -> recordService.deleteRecordById(2L));
+    }
 }

@@ -20,7 +20,7 @@ class MapperTest {
     Mapper mapper;
 
     @Test
-    void toRecordDto() {
+    void toRecordDto() throws Exception{
         Record record1 = new Record(1L, "Record One", new HashSet<>(),
                 Year.of(2022), new HashSet<>(), new Stock());
 

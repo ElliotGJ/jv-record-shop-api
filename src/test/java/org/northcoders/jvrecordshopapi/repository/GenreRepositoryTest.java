@@ -19,7 +19,7 @@ class GenreRepositoryTest {
 
 
     @Test
-    void findByNameTest() {
+    void findByNameTest() throws Exception{
         Genre genre = new Genre();
         genre.setName("Metal");
         genre = genreRepository.save(genre);
@@ -28,7 +28,7 @@ class GenreRepositoryTest {
     }
 
     @Test
-    void findAllByNameTest() {
+    void findAllByNameTest() throws Exception{
         Genre metal = new Genre();
         Genre rock = new Genre();
         metal.setName("Metal");
