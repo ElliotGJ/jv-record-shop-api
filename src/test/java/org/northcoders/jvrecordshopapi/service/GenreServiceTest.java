@@ -28,18 +28,18 @@ class GenreServiceTest {
     GenreService genreService;
 
     @Test
-    void getGenreByName() {
+    void getGenreByName() throws Exception{
     }
 
     @Test
     @DisplayName("Throw error with invalid genre")
-    void throwByInvalidGenreTest() {
+    void throwByInvalidGenreTest() throws Exception{
         given(genreRepository.findByName("Meetal")).willReturn(Optional.empty());
         assertThrows(EntityNotFoundException.class, () -> genreService.getGenreByName("Meetal"));
     }
 
     @Test
-    void getGenresFromName() {
+    void getGenresFromName() throws Exception{
         Genre metal = new Genre(1L, "Metal", null);
         Genre rock = new Genre(2L, "Rock", null);
 

@@ -4,17 +4,22 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.northcoders.jvrecordshopapi.dto.RecordCreationDto;
 import org.northcoders.jvrecordshopapi.service.RecordService;
 import org.northcoders.jvrecordshopapi.dto.RecordDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import java.time.Year;
@@ -22,7 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -47,6 +51,7 @@ class RecordControllerTest {
     public void setup() {
         mockRecordController = MockMvcBuilders.standaloneSetup(recordController).build();
         mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
         testRecordDtos = new ArrayList<>();
         RecordDto recordDto1 = new RecordDto(1L, "Record One", new ArrayList<>(List.of()),
                 Year.of(2022), new ArrayList<>(List.of("")), 0);
@@ -104,11 +109,26 @@ class RecordControllerTest {
                 .andExpect(jsonPath("$.stock", is(testRecordDtos.get(1).stock())));
     }
 
-//    @Test
-//    @DisplayName("Add new /record")
-//    void addNewRecordTest() throws Exception {
-//        RecordDto testRecord = new RecordDto(null, "Record", )
-//        given(recordService.addNewRecord()).willReturn();
-//    }
+    @Test
+    @DisplayName("Add new /record")
+    void addNewRecordTest() throws Exception {
+        Year year = Year.of(2020);
+        RecordCreationDto testRecord = new RecordCreationDto("Cool Record", new ArrayList<Long>(List.of(1L)), year,
+                new ArrayList<String>(List.of("Metal")), 50);
+        RecordDto expectedReturn = new RecordDto(1L, "Cool Record", new ArrayList<String>(List.of("George")), year,
+                new ArrayList<String>(List.of("Metal")), 50);
+        given(recordService.addNewRecord(testRecord)).willReturn(expectedReturn);
 
+
+        mockRecordController.perform(post("/api/record").contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(testRecord))).andExpect(MockMvcResultMatchers.status().isCreated());
+
+    }
+
+    @Test
+    @DisplayName("Delete record from id")
+    void deleteRecordByIdTest() throws Exception {
+        when(recordService.deleteRecordById(1L)).thenReturn(true);
+        mockRecordController.perform(delete("/api/record/1")).andExpect(MockMvcResultMatchers.status().isNoContent());
+    }
 }

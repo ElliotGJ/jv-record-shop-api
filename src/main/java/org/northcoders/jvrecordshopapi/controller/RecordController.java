@@ -37,4 +37,10 @@ public class RecordController {
     public ResponseEntity<RecordDto> addNewRecord(@RequestBody RecordCreationDto creationDto) {
         return new ResponseEntity<>(recordService.addNewRecord(creationDto), HttpStatus.CREATED);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteRecord(@PathVariable long id) {
+        recordService.deleteRecordById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
