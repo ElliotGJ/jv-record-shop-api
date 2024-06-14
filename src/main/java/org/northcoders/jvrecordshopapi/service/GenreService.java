@@ -34,8 +34,6 @@ public class GenreService {
         return genreDtos;
     }
 
-
-
     public Genre addGenre(String name) {
         Genre genre = new Genre(null, name, new HashSet<>());
         if (genreRepository.findByNameIgnoreCase(name).isEmpty()) {
