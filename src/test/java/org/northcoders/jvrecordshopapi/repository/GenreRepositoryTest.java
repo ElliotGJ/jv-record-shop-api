@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+
 @Transactional
 @SpringBootTest
 class GenreRepositoryTest {
@@ -19,11 +19,11 @@ class GenreRepositoryTest {
 
 
     @Test
-    void findByNameTest() throws Exception{
+    void findByNameIgnoreCaseTest() throws Exception{
         Genre genre = new Genre();
         genre.setName("Metal");
         genre = genreRepository.save(genre);
-        Optional<Genre> result = genreRepository.findByName("Metal");
+        Optional<Genre> result = genreRepository.findByNameIgnoreCase("Metal");
         assertThat(result.get()).isEqualTo(genre);
     }
 
@@ -35,7 +35,7 @@ class GenreRepositoryTest {
         rock.setName("Rock");
         metal = genreRepository.save(metal);
         metal = genreRepository.save(rock);
-        Iterable<Genre> result = genreRepository.findAllByNameIn(List.of("Metal", "Rock"));
+        Iterable<Genre> result = genreRepository.findAllByNameInIgnoreCase(List.of("Metal", "Rock"));
         assertThat(result).hasSize(2);
     }
 }

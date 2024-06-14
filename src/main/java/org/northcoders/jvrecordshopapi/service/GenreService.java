@@ -2,7 +2,6 @@ package org.northcoders.jvrecordshopapi.service;
 
 
 import jakarta.persistence.EntityNotFoundException;
-import org.hibernate.DuplicateMappingException;
 import org.northcoders.jvrecordshopapi.exception.DuplicateEntryException;
 import org.northcoders.jvrecordshopapi.model.Genre;
 import org.northcoders.jvrecordshopapi.repository.GenreRepository;
@@ -21,7 +20,7 @@ public class GenreService {
 
 
     public Genre getGenreByName(String genreName) {
-        Optional<Genre> genre = genreRepository.findByName(genreName);
+        Optional<Genre> genre = genreRepository.findByNameIgnoreCase(genreName);
         if (genre.isEmpty()) {
             throw new EntityNotFoundException("Genre: " + genreName + " not found.");
         }
@@ -30,14 +29,14 @@ public class GenreService {
 
     public Genre addGenre(String name) {
         Genre genre = new Genre(null, name, new HashSet<>());
-        if (genreRepository.findByName(name).isEmpty()) {
+        if (genreRepository.findByNameIgnoreCase(name).isEmpty()) {
             return genreRepository.save(genre);
         }else throw new DuplicateEntryException("Genre: " + name + " already exists.");
     }
 
     public HashSet<Genre> getGenresFromName(List<String> genreNames) {
         HashSet<Genre> genres = new HashSet<>();
-        genreRepository.findAllByNameIn(genreNames).forEach(genres::add);
+        genreRepository.findAllByNameInIgnoreCase(genreNames).forEach(genres::add);
 
         List<String> notFoundGenreNames = genreNames.stream()
                 .filter(genreName -> !genres.stream().map(Genre::getName).toList().contains(genreName))

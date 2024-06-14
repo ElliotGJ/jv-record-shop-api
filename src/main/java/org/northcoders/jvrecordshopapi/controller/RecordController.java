@@ -23,10 +23,10 @@ public class RecordController {
 
     @GetMapping
     public ResponseEntity<HashSet<RecordDto>> getAllRecords(@RequestParam(required = false) String genre) {
-        if (Objects.isNull(genre)) {
-            return new ResponseEntity<>(recordService.getAllRecords(), HttpStatus.OK);
+        if (genre != null) {
+            return new ResponseEntity<>(recordService.getAllRecordsInGenre(genre), HttpStatus.OK);
         }
-        return new ResponseEntity<>(recordService.getAllRecordsInGenre(genre), HttpStatus.OK);
+        return new ResponseEntity<>(recordService.getAllRecords(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
