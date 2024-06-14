@@ -11,12 +11,9 @@ import org.northcoders.jvrecordshopapi.dto.RecordCreationDto;
 import org.northcoders.jvrecordshopapi.model.Genre;
 import org.northcoders.jvrecordshopapi.model.Record;
 import org.northcoders.jvrecordshopapi.model.Stock;
-import org.northcoders.jvrecordshopapi.repository.GenreRepository;
 import org.northcoders.jvrecordshopapi.repository.RecordRepository;
 import org.northcoders.jvrecordshopapi.dto.RecordDto;
-import org.northcoders.jvrecordshopapi.dto.Mapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.autoconfigure.metrics.data.RepositoryMetricsAutoConfiguration;
+import org.northcoders.jvrecordshopapi.utils.Mapper;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.time.Year;

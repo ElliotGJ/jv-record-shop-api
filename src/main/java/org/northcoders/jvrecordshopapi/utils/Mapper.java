@@ -1,5 +1,6 @@
-package org.northcoders.jvrecordshopapi.dto;
+package org.northcoders.jvrecordshopapi.utils;
 
+import org.northcoders.jvrecordshopapi.dto.*;
 import org.northcoders.jvrecordshopapi.model.Artist;
 import org.northcoders.jvrecordshopapi.model.Genre;
 import org.northcoders.jvrecordshopapi.model.Record;

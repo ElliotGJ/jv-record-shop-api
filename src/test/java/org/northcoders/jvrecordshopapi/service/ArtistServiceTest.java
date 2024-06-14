@@ -1,7 +1,6 @@
 package org.northcoders.jvrecordshopapi.service;
 
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.Valid;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
@@ -10,8 +9,7 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.northcoders.jvrecordshopapi.dto.ArtistDto;
 import org.northcoders.jvrecordshopapi.dto.ArtistDtoNoRecords;
-import org.northcoders.jvrecordshopapi.dto.Mapper;
-import org.northcoders.jvrecordshopapi.dto.RecordDto;
+import org.northcoders.jvrecordshopapi.utils.Mapper;
 import org.northcoders.jvrecordshopapi.model.Artist;
 import org.northcoders.jvrecordshopapi.repository.ArtistRepository;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;

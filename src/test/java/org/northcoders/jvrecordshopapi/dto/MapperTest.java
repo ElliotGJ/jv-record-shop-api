@@ -5,6 +5,7 @@ import org.northcoders.jvrecordshopapi.model.Artist;
 import org.northcoders.jvrecordshopapi.model.Genre;
 import org.northcoders.jvrecordshopapi.model.Record;
 import org.northcoders.jvrecordshopapi.model.Stock;
+import org.northcoders.jvrecordshopapi.utils.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 

@@ -5,14 +5,12 @@ import org.northcoders.jvrecordshopapi.dto.RecordCreationDto;
 import org.northcoders.jvrecordshopapi.model.Record;
 import org.northcoders.jvrecordshopapi.repository.RecordRepository;
 import org.northcoders.jvrecordshopapi.dto.RecordDto;
-import org.northcoders.jvrecordshopapi.dto.Mapper;
+import org.northcoders.jvrecordshopapi.utils.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Year;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 
 @Service

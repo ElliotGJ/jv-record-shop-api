@@ -7,9 +7,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.northcoders.jvrecordshopapi.dto.GenreDto;
-import org.northcoders.jvrecordshopapi.dto.Mapper;
+import org.northcoders.jvrecordshopapi.utils.Mapper;
 import org.northcoders.jvrecordshopapi.model.Genre;
-import org.northcoders.jvrecordshopapi.repository.GenreRepository;
+
 import static org.hamcrest.Matchers.is;
 import org.northcoders.jvrecordshopapi.service.GenreService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.HashSet;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;

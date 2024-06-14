@@ -2,8 +2,7 @@ package org.northcoders.jvrecordshopapi.controller;
 
 
 import org.northcoders.jvrecordshopapi.dto.GenreDto;
-import org.northcoders.jvrecordshopapi.dto.Mapper;
-import org.northcoders.jvrecordshopapi.model.Genre;
+import org.northcoders.jvrecordshopapi.utils.Mapper;
 import org.northcoders.jvrecordshopapi.service.GenreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
