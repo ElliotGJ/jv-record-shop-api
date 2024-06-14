@@ -42,12 +42,8 @@ public class RecordService {
     }
 
     public RecordDto getRecordById(long id) {
-        Optional<Record> result = recordRepository.findById(id);
-        if (result.isEmpty()) {
-            throw new EntityNotFoundException("Record: " + id + " not found.");
+        return mapper.toRecordDto(recordRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Record not found with ID: " + id)));
         }
-        return mapper.toRecordDto(result.get());
-    }
 
     public RecordDto addNewRecord(RecordCreationDto creationDto) {
         Record record = mapper.creationDtoToRecord(creationDto);
