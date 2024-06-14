@@ -49,4 +49,8 @@ public class Mapper {
     public Artist artistFromName(String name) {
         return new Artist(null, name, new HashSet<>());
     }
+
+    public GenreDto toGenreDto(Genre genre) {
+        return new GenreDto(genre.getId(), genre.getName());
+    }
 }

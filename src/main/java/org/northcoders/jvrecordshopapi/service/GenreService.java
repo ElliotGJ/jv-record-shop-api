@@ -2,6 +2,7 @@ package org.northcoders.jvrecordshopapi.service;
 
 
 import jakarta.persistence.EntityNotFoundException;
+import org.northcoders.jvrecordshopapi.dto.GenreDto;
 import org.northcoders.jvrecordshopapi.exception.DuplicateEntryException;
 import org.northcoders.jvrecordshopapi.model.Genre;
 import org.northcoders.jvrecordshopapi.repository.GenreRepository;
@@ -26,6 +27,14 @@ public class GenreService {
         }
         return genre.get();
     }
+
+    public HashSet<GenreDto> getAllGenres() {
+        HashSet<GenreDto> genreDtos = new HashSet<>();
+        genreRepository.findAll().forEach(genre -> genreDtos.add(new GenreDto(genre.getId(), genre.getName())));
+        return genreDtos;
+    }
+
+
 
     public Genre addGenre(String name) {
         Genre genre = new Genre(null, name, new HashSet<>());
