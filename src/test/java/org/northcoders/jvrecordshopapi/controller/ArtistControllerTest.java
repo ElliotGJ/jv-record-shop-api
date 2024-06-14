@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.northcoders.jvrecordshopapi.dto.ArtistDto;
+import org.northcoders.jvrecordshopapi.dto.ArtistDtoNoRecords;
 import org.northcoders.jvrecordshopapi.service.ArtistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -70,5 +71,14 @@ class ArtistControllerTest {
                  .andExpect(status().isOk())
                  .andExpect(jsonPath("$.name", is("James")))
                  .andExpect(jsonPath("$.id", is(1)));
+    }
+
+    @Test
+    @DisplayName("Return all artists by name")
+    void getArtistsByName() throws Exception {
+        given(artistService.getArtistsByName("James")).willReturn(new HashSet<>(List.of(new ArtistDtoNoRecords(1L, "James"))));
+         mockArtistController.perform(get("/api/artist?name=James"))
+                 .andExpect(status().isOk())
+                 .andExpect(jsonPath("$[0].name", is("James")));
     }
 }

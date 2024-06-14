@@ -19,7 +19,10 @@ public class ArtistController {
     ArtistService artistService;
 
     @GetMapping
-    public ResponseEntity<HashSet<ArtistDtoNoRecords>> getAllArtists() {
+    public ResponseEntity<HashSet<ArtistDtoNoRecords>> getAllArtists(@RequestParam(required = false) String name) {
+        if (name != null) {
+            return new ResponseEntity<>(artistService.getArtistsByName(name), HttpStatus.OK);
+        }
         return new ResponseEntity<>(artistService.getAllArtists(), HttpStatus.OK);
     }
 

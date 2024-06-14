@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class ArtistService {
@@ -49,5 +48,11 @@ public class ArtistService {
 
     public ArtistDto getArtistById(long id) {
         return mapper.toArtistDto(artistRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Artist not found with ID: " + id)));
+    }
+
+    public HashSet<ArtistDtoNoRecords> getArtistsByName(String name) {
+        HashSet<ArtistDtoNoRecords> artists = new HashSet<>();
+        artistRepository.findArtistsByNameIgnoreCase(name).forEach(artist -> artists.add(mapper.toArtistDtoNoRecords(artist)));
+        return artists;
     }
 }
