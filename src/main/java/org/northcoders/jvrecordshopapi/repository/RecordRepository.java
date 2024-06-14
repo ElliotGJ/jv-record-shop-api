@@ -9,4 +9,6 @@ import java.time.Year;
 
 @Repository
 public interface RecordRepository extends CrudRepository<Record, Long> {
+    Iterable<Record> findAllByNameIgnoreCase(String name);
+    Iterable<Record> findAllByReleaseYear(Year year);
 }

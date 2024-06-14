@@ -76,4 +76,5 @@ class GenreServiceTest {
         assertThrows(DuplicateEntryException.class, () -> genreService.addGenre("Metal"));
     }
 
+
 }

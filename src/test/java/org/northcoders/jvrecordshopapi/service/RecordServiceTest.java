@@ -121,4 +121,22 @@ class RecordServiceTest {
         assertTrue(recordService.deleteRecordById(1L));
         assertThrows(EntityNotFoundException.class, () -> recordService.deleteRecordById(2L));
     }
+
+    @Test
+    @DisplayName("Get records by name")
+    void getRecordsByNameTest() throws Exception {
+        given(recordRepository.findAllByNameIgnoreCase("Record Two")).willReturn(List.of(testRecords.get(1)));
+        HashSet<RecordDto> results = recordService.getRecordsByName("Record Two");
+        assertThat(results.size()).isEqualTo(1);
+        assertThat(results.iterator().next().name()).isEqualTo("Record Two");
+    }
+
+    @Test
+    @DisplayName("Get records by release year")
+    void getRecordsByReleaseYearTest() throws Exception {
+        given(recordRepository.findAllByReleaseYear(Year.of(2020))).willReturn(List.of(testRecords.get(2)));
+        HashSet<RecordDto> results = recordService.getRecordsByReleaseYear(Year.of(2020));
+        assertThat(results.size()).isEqualTo(1);
+        assertThat(results.iterator().next().name()).isEqualTo("Record Three");
+    }
 }

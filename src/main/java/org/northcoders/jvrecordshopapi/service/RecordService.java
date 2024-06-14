@@ -9,6 +9,7 @@ import org.northcoders.jvrecordshopapi.dto.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -70,6 +71,18 @@ public class RecordService {
             return true;
         }
 
+    }
+
+    public HashSet<RecordDto> getRecordsByName(String name) {
+        HashSet<RecordDto> recordDtos = new HashSet<>();
+        recordRepository.findAllByNameIgnoreCase(name).forEach(record -> recordDtos.add(mapper.toRecordDto(record)));
+        return recordDtos;
+    }
+
+    public HashSet<RecordDto> getRecordsByReleaseYear(Year year) {
+        HashSet<RecordDto> recordDtos = new HashSet<>();
+        recordRepository.findAllByReleaseYear(year).forEach(record -> recordDtos.add(mapper.toRecordDto(record)));
+        return recordDtos;
     }
 
 }
