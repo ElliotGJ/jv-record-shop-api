@@ -1,5 +1,6 @@
 package org.northcoders.jvrecordshopapi.controller;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -10,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
 import static org.hamcrest.Matchers.is;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -35,6 +38,11 @@ class ArtistControllerTest {
     @Autowired
     MockMvc mockArtistController;
 
+    @BeforeEach
+    void setUp() {
+        mockArtistController = MockMvcBuilders.standaloneSetup(artistController).build();
+    }
+
 
     @Test
     @DisplayName("Return all artists")
@@ -52,5 +60,15 @@ class ArtistControllerTest {
          mockArtistController.perform(post("/api/artist").contentType("application/json").content(json))
                  .andExpect(status().isCreated())
                  .andExpect(jsonPath("$.name", is("James")));
+    }
+
+    @Test
+    @DisplayName("Get artist by ID")
+    void getArtistById() throws Exception {
+        given(artistService.getArtistById(1L)).willReturn(new ArtistDto(1L, "James", new ArrayList<>()));
+         mockArtistController.perform(get("/api/artist/1"))
+                 .andExpect(status().isOk())
+                 .andExpect(jsonPath("$.name", is("James")))
+                 .andExpect(jsonPath("$.id", is(1)));
     }
 }

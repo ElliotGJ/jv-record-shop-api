@@ -28,4 +28,9 @@ public class ArtistController {
         return new ResponseEntity<>(artistService.addNewArtist(name), HttpStatus.CREATED);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ArtistDto> getArtistById(@PathVariable long id) {
+        return new ResponseEntity<>(artistService.getArtistById(id), HttpStatus.OK);
+    }
+
 }

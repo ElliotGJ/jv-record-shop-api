@@ -46,4 +46,8 @@ public class ArtistService {
     public ArtistDto addNewArtist(String name) {
         return mapper.toArtistDto(artistRepository.save(mapper.artistFromName(name)));
     }
+
+    public ArtistDto getArtistById(long id) {
+        return mapper.toArtistDto(artistRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Artist not found with ID: " + id)));
+    }
 }
