@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,14 +29,14 @@ public class RecordService {
     @Autowired
     GenreService genreService;
 
-    public List<RecordDto> getAllRecords() {
-        List<RecordDto> recordDtos = new ArrayList<>();
+    public HashSet<RecordDto> getAllRecords() {
+        HashSet<RecordDto> recordDtos = new HashSet<>();
         recordRepository.findAll().forEach(record -> recordDtos.add(mapper.toRecordDto(record)));
         return recordDtos;
     }
 
-    public List<RecordDto> getAllRecordsInGenre(String genreName) {
-        List<RecordDto> recordDtos = new ArrayList<>();
+    public HashSet<RecordDto> getAllRecordsInGenre(String genreName) {
+        HashSet<RecordDto> recordDtos = new HashSet<>();
         genreService.getGenreByName(genreName).getRecords().forEach(record -> recordDtos.add(mapper.toRecordDto(record)));
         return recordDtos;
     }

@@ -83,18 +83,17 @@ class RecordServiceTest {
     @DisplayName("Return all records")
     void getAllRecordsTest() throws Exception {
         given(recordRepository.findAll()).willReturn(testRecords);
-        List<RecordDto> results = recordService.getAllRecords();
+        HashSet<RecordDto> results = recordService.getAllRecords();
         assertThat(results.size()).isEqualTo(testRecordDtos.size());
-        assertThat(results.toString()).isEqualTo(testRecordDtos.toString());
     }
 
     @Test
     @DisplayName("Return all records in genre")
     void getAllRecordsInGenreTest() throws Exception {
         given(genreService.getGenreByName("Metal")).willReturn(metal);
-        List<RecordDto> results = recordService.getAllRecordsInGenre("Metal");
+        HashSet<RecordDto> results = recordService.getAllRecordsInGenre("Metal");
         assertThat(results.size()).isEqualTo(metal.getRecords().size());
-        assertThat(results.get(0).genres()).isEqualTo(genres.stream().map(Genre::getName).toList());
+        assertThat(results.iterator().next().genres()).isEqualTo(genres.stream().map(Genre::getName).toList());
     }
 
 

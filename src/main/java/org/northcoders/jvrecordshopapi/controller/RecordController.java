@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 
@@ -21,7 +22,7 @@ public class RecordController {
     RecordService recordService;
 
     @GetMapping
-    public ResponseEntity<List<RecordDto>> getAllRecords(@RequestParam(required = false) String genre) {
+    public ResponseEntity<HashSet<RecordDto>> getAllRecords(@RequestParam(required = false) String genre) {
         if (Objects.isNull(genre)) {
             return new ResponseEntity<>(recordService.getAllRecords(), HttpStatus.OK);
         }

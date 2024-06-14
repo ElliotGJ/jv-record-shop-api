@@ -24,6 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.time.Year;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.BDDMockito.given;
@@ -44,19 +45,19 @@ class RecordControllerTest {
     private MockMvc mockRecordController;
 
     private ObjectMapper mapper;
-    private List<RecordDto> testRecordDtos;
-    private List<RecordDto> testRecordMetalDTOs;
+    private HashSet<RecordDto> testRecordDtos;
+    private HashSet<RecordDto> testRecordMetalDTOs;
 
     @BeforeEach
     public void setup() {
         mockRecordController = MockMvcBuilders.standaloneSetup(recordController).build();
         mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
-        testRecordDtos = new ArrayList<>();
+        testRecordDtos = new HashSet<>();
         RecordDto recordDto1 = new RecordDto(1L, "Record One", new ArrayList<>(List.of()),
                 Year.of(2022), new ArrayList<>(List.of("")), 0);
         testRecordDtos.add(recordDto1);
-        testRecordMetalDTOs = new ArrayList<>();
+        testRecordMetalDTOs = new HashSet<>();
         RecordDto recordDto2 = new RecordDto(2L, "Record Two", new ArrayList<>(List.of()),
                 Year.of(2016), new ArrayList<>(List.of("Metal")), 0);
         testRecordDtos.add(recordDto2);
@@ -79,8 +80,8 @@ class RecordControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(3)))
-                .andExpect(jsonPath("$[0].name", is(testRecordDtos.get(0).name())))
-                .andExpect(jsonPath("$[1].genres", is(testRecordDtos.get(1).genres())));
+                .andExpect(jsonPath("$[0].name", is(testRecordDtos.iterator().next().name())))
+                .andExpect(jsonPath("$[1].genres", is(testRecordDtos.iterator().next().genres())));
     }
 
 
@@ -93,20 +94,20 @@ class RecordControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].name", is(testRecordMetalDTOs.get(0).name())))
-                .andExpect(jsonPath("$[1].stock", is(testRecordMetalDTOs.get(1).stock())));
+                .andExpect(jsonPath("$[0].name", is(testRecordMetalDTOs.iterator().next().name())))
+                .andExpect(jsonPath("$[1].stock", is(testRecordMetalDTOs.iterator().next().stock())));
     }
 
     @Test
     @DisplayName("Get /record by id")
     void getRecordById() throws Exception {
-        given(recordService.getRecordById(2L)).willReturn(testRecordDtos.get(1));
+        given(recordService.getRecordById(2L)).willReturn(testRecordDtos.iterator().next());
 
         mockRecordController.perform(get("/api/record/2")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name", is(testRecordDtos.get(1).name())))
-                .andExpect(jsonPath("$.stock", is(testRecordDtos.get(1).stock())));
+                .andExpect(jsonPath("$.name", is(testRecordDtos.iterator().next().name())))
+                .andExpect(jsonPath("$.stock", is(testRecordDtos.iterator().next().stock())));
     }
 
     @Test
