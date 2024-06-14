@@ -11,4 +11,5 @@ import java.util.Optional;
 public interface GenreRepository extends CrudRepository<Genre, Long> {
     Optional<Genre> findByNameIgnoreCase(String name);
     Iterable<Genre> findAllByNameInIgnoreCase(Collection<String> name);
+    void deleteByNameIgnoreCase(String name);
 }

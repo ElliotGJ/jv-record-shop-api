@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Year;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -22,11 +23,23 @@ public class RecordController {
     RecordService recordService;
 
     @GetMapping
-    public ResponseEntity<HashSet<RecordDto>> getAllRecords(@RequestParam(required = false) String genre) {
-        if (genre != null) {
-            return new ResponseEntity<>(recordService.getAllRecordsInGenre(genre), HttpStatus.OK);
-        }
+    public ResponseEntity<HashSet<RecordDto>> getAllRecords() {
         return new ResponseEntity<>(recordService.getAllRecords(), HttpStatus.OK);
+    }
+
+    @GetMapping(params = {"name"})
+    public ResponseEntity<HashSet<RecordDto>> getAllRecordsByName(@RequestParam String name) {
+        return new ResponseEntity<>(recordService.getRecordsByName(name), HttpStatus.OK);
+    }
+
+    @GetMapping(params = {"genre"})
+    public ResponseEntity<HashSet<RecordDto>> getAllRecordsByGenre(@RequestParam String genre) {
+        return new ResponseEntity<>(recordService.getAllRecordsInGenre(genre), HttpStatus.OK);
+    }
+
+    @GetMapping(params = {"year"})
+    public ResponseEntity<HashSet<RecordDto>> getAllRecordsByYear(@RequestParam Year year) {
+        return new ResponseEntity<>(recordService.getRecordsByReleaseYear(year), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

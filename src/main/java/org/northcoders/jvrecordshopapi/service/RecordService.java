@@ -63,12 +63,11 @@ public class RecordService {
         return mapper.toRecordDto(savedRecord);
     }
 
-    public boolean deleteRecordById(Long id) {
+    public void deleteRecordById(Long id) {
         if (recordRepository.findById(id).isEmpty()) {
             throw new EntityNotFoundException("Record: " + id + " not found.");
         } else {
             recordRepository.deleteById(id);
-            return true;
         }
 
     }

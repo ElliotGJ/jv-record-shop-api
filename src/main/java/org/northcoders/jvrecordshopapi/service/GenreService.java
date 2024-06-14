@@ -34,6 +34,22 @@ public class GenreService {
         }else throw new DuplicateEntryException("Genre: " + name + " already exists.");
     }
 
+    public void deleteGenreById(long id) {
+        if (genreRepository.existsById(id)) {
+            genreRepository.deleteById(id);
+        } else {
+            throw new EntityNotFoundException("Genre not found with ID: " + id);
+        }
+    }
+
+    public void deleteGenreByName(String name) {
+        if (genreRepository.findByNameIgnoreCase(name).isPresent()) {
+            genreRepository.deleteByNameIgnoreCase(name);
+        } else {
+            throw new EntityNotFoundException("Genre not found with name: " + name);
+        }
+    }
+
     public HashSet<Genre> getGenresFromName(List<String> genreNames) {
         HashSet<Genre> genres = new HashSet<>();
         genreRepository.findAllByNameInIgnoreCase(genreNames).forEach(genres::add);

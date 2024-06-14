@@ -127,9 +127,32 @@ class RecordControllerTest {
     }
 
     @Test
-    @DisplayName("Delete record from id")
+    @DisplayName("Delete /record from id")
     void deleteRecordByIdTest() throws Exception {
-        when(recordService.deleteRecordById(1L)).thenReturn(true);
         mockRecordController.perform(delete("/api/record/1")).andExpect(MockMvcResultMatchers.status().isNoContent());
+    }
+
+    @Test
+    @DisplayName("Get /record by year")
+    void getAllRecordsByYearTest() throws Exception {
+        given(recordService.getRecordsByReleaseYear(Year.of(2020))).willReturn(testRecordMetalDTOs);
+
+        mockRecordController.perform(get("/api/record?year=2020"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].name", is(testRecordMetalDTOs.iterator().next().name())))
+                .andExpect(jsonPath("$[1].stock", is(testRecordMetalDTOs.iterator().next().stock())));
+    }
+
+    @Test
+    @DisplayName("Get /record by name")
+    void getRecordsByNameTest() throws Exception {
+        given(recordService.getRecordsByName("Record Two")).willReturn(new HashSet<>(List.of(new RecordDto(1L, "Record Two",
+                new ArrayList<>(List.of()), Year.of(2016), new ArrayList<>(List.of("Metal")), 0))));
+        mockRecordController.perform(get("/api/record?name=Record Two"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].name", is("Record Two")))
+                .andExpect(jsonPath("$[0].stock", is(0)));
     }
 }

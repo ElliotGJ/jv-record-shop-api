@@ -118,7 +118,7 @@ class RecordServiceTest {
         given(recordRepository.findById(1L)).willReturn(Optional.of(testRecords.get(0)));
         given(recordRepository.findById(2L)).willReturn(Optional.empty());
 
-        assertTrue(recordService.deleteRecordById(1L));
+        recordService.deleteRecordById(1L);
         assertThrows(EntityNotFoundException.class, () -> recordService.deleteRecordById(2L));
     }
 
