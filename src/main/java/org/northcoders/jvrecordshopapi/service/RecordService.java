@@ -64,10 +64,12 @@ public class RecordService {
     }
 
     public void deleteRecordById(Long id) {
-        if (recordRepository.findById(id).isEmpty()) {
+        Optional<Record> record = recordRepository.findById(id);
+        if (record.isEmpty()) {
             throw new EntityNotFoundException("Record: " + id + " not found.");
         } else {
-            recordRepository.deleteById(id);
+            record.get().getGenres().forEach(genre -> genre.getRecords().remove(record.get()));
+            recordRepository.delete(record.get());
         }
 
     }
@@ -83,5 +85,42 @@ public class RecordService {
         recordRepository.findAllByReleaseYear(year).forEach(record -> recordDtos.add(mapper.toRecordDto(record)));
         return recordDtos;
     }
+
+    public HashSet<RecordDto> getRecordsInStock(boolean inStock) {
+        HashSet<RecordDto> recordDtos = new HashSet<>();
+        recordRepository.findAllByStock_StockGreaterThan(0).forEach(record -> recordDtos.add(mapper.toRecordDto(record)));
+        return recordDtos;
+    }
+
+    public RecordDto updateRecord(long id, RecordCreationDto creationDto) {
+        Record record = recordRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Record not found with ID: " + id));
+
+        if (creationDto.name() != null) {
+            record.setName(creationDto.name());
+        }
+
+        if (creationDto.artistIds() != null) {
+            record.setArtists(artistService.getArtistsFromIds(creationDto.artistIds()));
+        }
+
+        if (creationDto.genres() != null) {
+            record.setGenres(genreService.getGenresFromName(creationDto.genres()));
+        }
+
+        if (creationDto.stock() != null && creationDto.stock() >= 0) {
+            record.getStock().setStock(creationDto.stock());
+        }
+
+        if (creationDto.releaseYear() != null) {
+            record.setReleaseYear(creationDto.releaseYear());
+        }
+
+        Record savedRecord = recordRepository.save(record);
+
+        return mapper.toRecordDto(savedRecord);
+    }
+
+
+
 
 }

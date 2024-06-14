@@ -7,6 +7,7 @@ import org.northcoders.jvrecordshopapi.dto.RecordDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Year;
@@ -42,13 +43,18 @@ public class RecordController {
         return new ResponseEntity<>(recordService.getRecordsByReleaseYear(year), HttpStatus.OK);
     }
 
+    @GetMapping(params = {"inStock"})
+    public ResponseEntity<HashSet<RecordDto>> getAllRecordsInStock(@RequestParam boolean inStock) {
+        return new ResponseEntity<>(recordService.getRecordsInStock(inStock), HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<RecordDto> getRecordById(@PathVariable long id) {
         return new ResponseEntity<>(recordService.getRecordById(id), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<RecordDto> addNewRecord(@RequestBody RecordCreationDto creationDto) {
+    public ResponseEntity<RecordDto> addNewRecord(@RequestBody @Validated RecordCreationDto creationDto) {
         return new ResponseEntity<>(recordService.addNewRecord(creationDto), HttpStatus.CREATED);
     }
 
@@ -56,5 +62,10 @@ public class RecordController {
     public ResponseEntity<String> deleteRecord(@PathVariable long id) {
         recordService.deleteRecordById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<RecordDto> updateRecord(@PathVariable long id, @RequestBody RecordCreationDto creationDto) {
+        return new ResponseEntity<>(recordService.updateRecord(id, creationDto), HttpStatus.OK);
     }
 }

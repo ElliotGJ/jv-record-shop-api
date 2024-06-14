@@ -155,4 +155,30 @@ class RecordControllerTest {
                 .andExpect(jsonPath("$[0].name", is("Record Two")))
                 .andExpect(jsonPath("$[0].stock", is(0)));
     }
+
+    @Test
+    @DisplayName("Get /record by inStock")
+    void getAllRecordsInStockTest() throws Exception {
+        given(recordService.getRecordsInStock(true)).willReturn(testRecordMetalDTOs);
+
+        mockRecordController.perform(get("/api/record?inStock=true"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].name", is(testRecordMetalDTOs.iterator().next().name())))
+                .andExpect(jsonPath("$[1].stock", is(testRecordMetalDTOs.iterator().next().stock())));
+    }
+
+    @Test
+    @DisplayName("Update /record")
+    void updateRecordTest() throws Exception {
+        Year year = Year.of(2020);
+        RecordCreationDto testRecord = new RecordCreationDto("Cool Record", new ArrayList<Long>(List.of(1L)), year,
+                new ArrayList<String>(List.of("Metal")), 50);
+        RecordDto expectedReturn = new RecordDto(1L, "Cool Record", new ArrayList<String>(List.of("George")), year,
+                new ArrayList<String>(List.of("Metal")), 50);
+        given(recordService.updateRecord(1L, testRecord)).willReturn(expectedReturn);
+
+        mockRecordController.perform(put("/api/record/1").contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(testRecord))).andExpect(MockMvcResultMatchers.status().isOk());
+    }
 }

@@ -55,4 +55,10 @@ public class ArtistService {
         artistRepository.findArtistsByNameIgnoreCase(name).forEach(artist -> artists.add(mapper.toArtistDtoNoRecords(artist)));
         return artists;
     }
+
+    public ArtistDto updateArtist(long id, String name) {
+        Artist artist = artistRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Artist not found with ID: " + id));
+        artist.setName(name);
+        return mapper.toArtistDto(artistRepository.save(artist));
+    }
 }

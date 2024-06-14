@@ -22,7 +22,7 @@ public class Record {
     @Column(nullable = false)
     private String name;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     @JoinTable(
             name="artists_records",
             joinColumns = @JoinColumn(name = "artist_id", nullable = false),
@@ -36,7 +36,7 @@ public class Record {
     @ManyToMany(mappedBy = "records")
     private Set<Genre> genres;
 
-    @OneToOne(mappedBy = "record", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "record", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @PrimaryKeyJoinColumn
     private Stock stock;
 }

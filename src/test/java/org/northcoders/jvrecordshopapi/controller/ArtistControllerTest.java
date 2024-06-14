@@ -21,8 +21,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -80,5 +79,15 @@ class ArtistControllerTest {
          mockArtistController.perform(get("/api/artist?name=James"))
                  .andExpect(status().isOk())
                  .andExpect(jsonPath("$[0].name", is("James")));
+    }
+
+    @Test
+    @DisplayName("Update artist")
+    void updateArtist() throws Exception {
+        given(artistService.updateArtist(1L, "Jimbo")).willReturn(new ArtistDto(1L, "Jimbo", new ArrayList<>()));
+        String json = "Jimbo";
+        mockArtistController.perform(put("/api/artist/1").contentType("application/json").content(json))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name", is("Jimbo")));
     }
 }

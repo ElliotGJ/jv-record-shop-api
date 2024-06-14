@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
+import org.northcoders.jvrecordshopapi.dto.RecordCreationDto;
 import org.northcoders.jvrecordshopapi.model.Genre;
 import org.northcoders.jvrecordshopapi.model.Record;
 import org.northcoders.jvrecordshopapi.model.Stock;
@@ -138,5 +139,30 @@ class RecordServiceTest {
         HashSet<RecordDto> results = recordService.getRecordsByReleaseYear(Year.of(2020));
         assertThat(results.size()).isEqualTo(1);
         assertThat(results.iterator().next().name()).isEqualTo("Record Three");
+    }
+
+    @Test
+    @DisplayName("Get records in stock")
+    void getRecordsInStockTest() throws Exception {
+        given(recordRepository.findAllByStock_StockGreaterThan(0)).willReturn(List.of(testRecords.get(1), testRecords.get(2)));
+        HashSet<RecordDto> results = recordService.getRecordsInStock(true);
+        assertThat(results.size()).isEqualTo(2);
+    }
+
+    @Test
+    @DisplayName("Update record")
+    void updateRecordTest() throws Exception {
+        Record record = testRecords.get(1);
+        RecordDto recordDto = testRecordDtos.get(1);
+        RecordDto updatedRecordDto = new RecordDto(2L, "Record Two", new ArrayList<>(),
+                Year.of(2016), new ArrayList<>(List.of("Metal")), 0);
+        given(recordRepository.findById(2L)).willReturn(Optional.of(record));
+        given(genreService.getGenresFromName(new ArrayList<>(List.of("Metal")))).willReturn(genres);
+        given(genreService.getGenreByName("Metal")).willReturn(metal);
+        given(recordRepository.save(record)).willReturn(record);
+        given(mapper.toRecordDto(record)).willReturn(updatedRecordDto);
+        RecordDto result = recordService.updateRecord(2L, new RecordCreationDto("Record Two", null,
+                Year.of(2016), new ArrayList<>(List.of("Metal")), 0));
+        assertThat(result).isEqualTo(updatedRecordDto);
     }
 }

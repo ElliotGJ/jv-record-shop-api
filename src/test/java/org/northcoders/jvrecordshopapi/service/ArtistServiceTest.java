@@ -82,4 +82,16 @@ class ArtistServiceTest {
         ArtistDto result = artistService.addNewArtist("James");
         assertThat(result.name()).isEqualTo("James");
     }
+
+    @Test
+    @DisplayName("Update artist")
+    void updateArtistTest() throws Exception {
+        Artist artist = new Artist(1L, "James", new HashSet<>());
+        Artist artistUpdated = new Artist(1L, "Jimbo", new HashSet<>());
+        given(artistRepository.findById(1L)).willReturn(java.util.Optional.of(artist));
+        given(artistRepository.save(ArgumentMatchers.any(Artist.class))).willReturn(artistUpdated);
+        ArtistDto result = artistService.updateArtist(1L, "James");
+        assertThat(result.name()).isEqualTo("Jimbo");
+        assertThat(result.id()).isEqualTo(1L);
+    }
 }

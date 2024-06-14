@@ -22,6 +22,12 @@ public class ApiError {
         this.httpStatus = httpStatus;
     }
 
+    public ApiError(HttpStatus httpStatus, String message) {
+        this();
+        this.message = message;
+        this.httpStatus = httpStatus;
+    }
+
     ApiError(HttpStatus httpStatus, Throwable ex) {
         this();
         this.httpStatus = httpStatus;

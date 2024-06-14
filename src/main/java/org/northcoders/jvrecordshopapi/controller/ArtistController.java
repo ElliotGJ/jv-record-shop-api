@@ -1,5 +1,8 @@
 package org.northcoders.jvrecordshopapi.controller;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import lombok.NonNull;
 import org.northcoders.jvrecordshopapi.dto.ArtistDto;
 import org.northcoders.jvrecordshopapi.dto.ArtistDtoNoRecords;
 import org.northcoders.jvrecordshopapi.model.Artist;
@@ -27,13 +30,18 @@ public class ArtistController {
     }
 
     @PostMapping
-    public ResponseEntity<ArtistDto> addNewArtist(@RequestBody String name) {
+    public ResponseEntity<ArtistDto> addNewArtist(@RequestBody @NotBlank(message = "Artist name should contain a value") String name) {
         return new ResponseEntity<>(artistService.addNewArtist(name), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ArtistDto> getArtistById(@PathVariable long id) {
         return new ResponseEntity<>(artistService.getArtistById(id), HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ArtistDto> updateArtist(@PathVariable long id, @RequestBody String name) {
+        return new ResponseEntity<>(artistService.updateArtist(id, name), HttpStatus.OK);
     }
 
 }

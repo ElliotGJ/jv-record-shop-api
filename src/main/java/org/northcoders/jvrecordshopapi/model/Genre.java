@@ -22,7 +22,7 @@ public class Genre {
     String name;
 
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinTable(
             name="records_genres",
             joinColumns = @JoinColumn(name = "genre_id"),
