@@ -29,22 +29,22 @@ public class RecordController {
     }
 
     @GetMapping(params = {"name"})
-    public ResponseEntity<HashSet<RecordDto>> getAllRecordsByName(@RequestParam String name) {
+    public ResponseEntity<HashSet<RecordDto>> getAllRecordsByName(@RequestParam(required = false) String name) {
         return new ResponseEntity<>(recordService.getRecordsByName(name), HttpStatus.OK);
     }
 
     @GetMapping(params = {"genre"})
-    public ResponseEntity<HashSet<RecordDto>> getAllRecordsByGenre(@RequestParam String genre) {
+    public ResponseEntity<HashSet<RecordDto>> getAllRecordsByGenre(@RequestParam(required = false) String genre) {
         return new ResponseEntity<>(recordService.getAllRecordsInGenre(genre), HttpStatus.OK);
     }
 
     @GetMapping(params = {"year"})
-    public ResponseEntity<HashSet<RecordDto>> getAllRecordsByYear(@RequestParam Year year) {
+    public ResponseEntity<HashSet<RecordDto>> getAllRecordsByYear(@RequestParam(required = false) Year year) {
         return new ResponseEntity<>(recordService.getRecordsByReleaseYear(year), HttpStatus.OK);
     }
 
     @GetMapping(params = {"inStock"})
-    public ResponseEntity<HashSet<RecordDto>> getAllRecordsInStock(@RequestParam boolean inStock) {
+    public ResponseEntity<HashSet<RecordDto>> getAllRecordsInStock(@RequestParam(required = false) boolean inStock) {
         return new ResponseEntity<>(recordService.getRecordsInStock(inStock), HttpStatus.OK);
     }
 
