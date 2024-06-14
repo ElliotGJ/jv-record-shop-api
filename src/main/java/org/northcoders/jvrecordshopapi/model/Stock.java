@@ -1,19 +1,23 @@
 package org.northcoders.jvrecordshopapi.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 @Entity
 @Table(name = "Stock")
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Stock {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(updatable = false, nullable = false)
+    @Column(name = "record_id")
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "record_id", referencedColumnName = "id", nullable = false, updatable = false)
+    @MapsId
+    @JoinColumn(name = "record_id")
     private Record record;
 
     @Column(nullable = false)

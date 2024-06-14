@@ -1,13 +1,17 @@
 package org.northcoders.jvrecordshopapi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.util.Set;
 
 @Entity
 @Table(name = "Artists")
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Artist {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -17,6 +21,6 @@ public class Artist {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany(mappedBy="artist", fetch = FetchType.LAZY)
-    private Set<Record> records;
+    @ManyToMany(mappedBy = "artists", fetch = FetchType.LAZY)
+    Set<Record> records;
 }
