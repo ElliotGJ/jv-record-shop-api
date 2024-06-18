@@ -32,6 +32,11 @@ public class Account {
     @Email
     private String email;
 
+    @Enumerated(value = EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
+
+
     @OneToMany(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Address> addresses;
 
@@ -41,4 +46,8 @@ public class Account {
     @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
     private Set<Order> orders;
 
+}
+enum Role {
+    USER,
+    ADMIN
 }
