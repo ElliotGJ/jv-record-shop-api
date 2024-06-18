@@ -33,7 +33,7 @@ public class Account {
     private String email;
 
     @Enumerated(value = EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "ENUM('USER', 'ADMIN') default 'USER'")
     private Role role;
 
 

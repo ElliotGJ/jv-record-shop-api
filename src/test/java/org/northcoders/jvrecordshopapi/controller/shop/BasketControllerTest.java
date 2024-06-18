@@ -43,7 +43,7 @@ class BasketControllerTest {
     void getBasket() throws Exception {
         when(basketService.getBasketDto(1L)).thenReturn(new BasketDto(new ArrayList<>(List.of(new BasketItemDto(1L, "record", 1)))));
 
-        mockBasketController.perform(get("/api/1/basket").contentType("application/json"))
+        mockBasketController.perform(get("/api/account/1/basket").contentType("application/json"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.items[0].recordId").value(1));
 

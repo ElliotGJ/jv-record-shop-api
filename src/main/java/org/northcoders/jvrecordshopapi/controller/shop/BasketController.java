@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/{accountId}/basket")
+@RequestMapping("api/account/{accountId}/basket")
 public class BasketController {
 
     @Autowired

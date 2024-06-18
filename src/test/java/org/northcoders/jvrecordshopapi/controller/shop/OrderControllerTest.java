@@ -52,7 +52,7 @@ class OrderControllerTest {
                         "Yep", null, "Bh1ajf", "Bournemotuth", Timestamp.valueOf("2022-01-01 00:00:00")))));
 
 
-        mockOrderController.perform(get("/api/1/orders").contentType("application/json"))
+        mockOrderController.perform(get("/api/account/1/orders").contentType("application/json"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id", is(1)))
                 .andExpect(jsonPath("$[0].accountId", is(1)))
@@ -65,7 +65,7 @@ class OrderControllerTest {
         given(orderService.getOrderByIdDto(1L, 1L)).willReturn(new OrderDto(1L, 1L, new ArrayList<>(List.of(new BasketItemDto(1L, "record", 1))),
                 "Yep", null, "Bh1ajf", "Bournemotuth", Timestamp.valueOf("2022-01-01 00:00:00")));
 
-        mockOrderController.perform(get("/api/1/orders/1").contentType("application/json"))
+        mockOrderController.perform(get("/api/account/1/orders/1").contentType("application/json"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.accountId", is(1)))

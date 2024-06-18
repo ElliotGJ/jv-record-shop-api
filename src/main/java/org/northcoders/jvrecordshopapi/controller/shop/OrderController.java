@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashSet;
 
 @RestController
-@RequestMapping("api/{accountId}/orders")
+@RequestMapping("api/account/{accountId}/orders")
 public class OrderController {
 
     @Autowired

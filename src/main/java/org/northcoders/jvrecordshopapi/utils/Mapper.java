@@ -1,16 +1,12 @@
 package org.northcoders.jvrecordshopapi.utils;
 
 import org.northcoders.jvrecordshopapi.dto.records.*;
-import org.northcoders.jvrecordshopapi.dto.shop.BasketDto;
-import org.northcoders.jvrecordshopapi.dto.shop.BasketItemDto;
-import org.northcoders.jvrecordshopapi.dto.shop.OrderDto;
+import org.northcoders.jvrecordshopapi.dto.shop.*;
 import org.northcoders.jvrecordshopapi.model.records.Artist;
 import org.northcoders.jvrecordshopapi.model.records.Genre;
 import org.northcoders.jvrecordshopapi.model.records.Record;
 import org.northcoders.jvrecordshopapi.model.records.Stock;
-import org.northcoders.jvrecordshopapi.model.shop.Basket;
-import org.northcoders.jvrecordshopapi.model.shop.BasketItem;
-import org.northcoders.jvrecordshopapi.model.shop.Order;
+import org.northcoders.jvrecordshopapi.model.shop.*;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
@@ -85,6 +81,28 @@ public class Mapper {
     public BasketDto toBasketDto(Basket basket) {
         return new BasketDto(
                 basket.getItems().stream().map(this::toBasketItemDto).toList()
+        );
+    }
+
+    public AccountDto toAccountDto(Account account) {
+        return new AccountDto(
+                account.getId(),
+                account.getFirstName(),
+                account.getLastName(),
+                account.getEmail()
+        );
+    }
+
+    public Account accountCreationDtoToAccount(TempAccountCreationDto accountCreationDto) {
+        return new Account(
+                null,
+                accountCreationDto.firstName(),
+                accountCreationDto.lastName(),
+                accountCreationDto.email(),
+                null,
+                new HashSet<>(),
+                new Basket(),
+                new HashSet<>()
         );
     }
 
