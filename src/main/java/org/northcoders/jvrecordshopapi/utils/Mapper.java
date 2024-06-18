@@ -1,10 +1,10 @@
 package org.northcoders.jvrecordshopapi.utils;
 
-import org.northcoders.jvrecordshopapi.dto.*;
-import org.northcoders.jvrecordshopapi.model.Artist;
-import org.northcoders.jvrecordshopapi.model.Genre;
-import org.northcoders.jvrecordshopapi.model.Record;
-import org.northcoders.jvrecordshopapi.model.Stock;
+import org.northcoders.jvrecordshopapi.dto.records.*;
+import org.northcoders.jvrecordshopapi.model.records.Artist;
+import org.northcoders.jvrecordshopapi.model.records.Genre;
+import org.northcoders.jvrecordshopapi.model.records.Record;
+import org.northcoders.jvrecordshopapi.model.records.Stock;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
