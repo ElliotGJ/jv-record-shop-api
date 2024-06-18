@@ -21,11 +21,11 @@ public class OrderController {
 
     @GetMapping
     public ResponseEntity<HashSet<OrderDto>> getAllOrders(@PathVariable long accountId) {
-        return new ResponseEntity<>(orderService.getAllOrders(accountId), HttpStatus.OK);
+        return new ResponseEntity<>(orderService.getAllOrdersDto(accountId), HttpStatus.OK);
     }
 
     @GetMapping("/{orderId}")
     public ResponseEntity<OrderDto> getOrderById(@PathVariable long accountId, @PathVariable long orderId) {
-        return new ResponseEntity<>(orderService.getOrderById(accountId, orderId), HttpStatus.OK);
+        return new ResponseEntity<>(orderService.getOrderByIdDto(accountId, orderId), HttpStatus.OK);
     }
 }

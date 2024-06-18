@@ -79,17 +79,17 @@ class RecordServiceTest {
 
     @Test
     @DisplayName("Return all records")
-    void getAllRecordsTest() throws Exception {
+    void getAllRecordsDtoTest() throws Exception {
         given(recordRepository.findAll()).willReturn(testRecords);
-        HashSet<RecordDto> results = recordService.getAllRecords();
+        HashSet<RecordDto> results = recordService.getAllRecordsDto();
         assertThat(results.size()).isEqualTo(testRecordDtos.size());
     }
 
     @Test
     @DisplayName("Return all records in genre")
-    void getAllRecordsInGenreTest() throws Exception {
+    void getAllRecordsDtoInGenreTest() throws Exception {
         given(genreService.getGenreByName("Metal")).willReturn(metal);
-        HashSet<RecordDto> results = recordService.getAllRecordsInGenre("Metal");
+        HashSet<RecordDto> results = recordService.getAllRecordsInGenreDto("Metal");
         assertThat(results.size()).isEqualTo(metal.getRecords().size());
         assertThat(results.iterator().next().genres()).isEqualTo(genres.stream().map(Genre::getName).toList());
     }
@@ -97,9 +97,9 @@ class RecordServiceTest {
 
     @Test
     @DisplayName("Return record by id")
-    void getRecordByIdTest() throws Exception {
+    void getRecordByIdDtoTest() throws Exception {
         given(recordRepository.findById(2L)).willReturn(Optional.ofNullable(testRecords.get(1)));
-        RecordDto result = recordService.getRecordById(2L);
+        RecordDto result = recordService.getRecordByIdDto(2L);
         assertThat(result).isEqualTo(testRecordDtos.get(1));
     }
 
@@ -107,7 +107,7 @@ class RecordServiceTest {
     @DisplayName("Throw error with wrong id")
     void throwByInvalidIdTest() throws Exception {
         given(recordRepository.findById(5L)).willReturn(Optional.empty());
-        assertThrows(EntityNotFoundException.class, () -> recordService.getRecordById(5L));
+        assertThrows(EntityNotFoundException.class, () -> recordService.getRecordByIdDto(5L));
     }
 
     @Test

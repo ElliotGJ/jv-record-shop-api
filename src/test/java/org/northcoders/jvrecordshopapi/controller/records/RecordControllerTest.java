@@ -72,7 +72,7 @@ class RecordControllerTest {
     @DisplayName("Get /record")
     void getAllRecords() throws Exception {
 
-        given(recordService.getAllRecords()).willReturn(testRecordDtos);
+        given(recordService.getAllRecordsDto()).willReturn(testRecordDtos);
 
         mockRecordController.perform(get("/api/record")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -86,7 +86,7 @@ class RecordControllerTest {
     @Test
     @DisplayName("Get /record by genre")
     void getAllRecordsByGenreTest() throws Exception {
-        given(recordService.getAllRecordsInGenre("Metal")).willReturn(testRecordMetalDTOs);
+        given(recordService.getAllRecordsInGenreDto("Metal")).willReturn(testRecordMetalDTOs);
 
         mockRecordController.perform(get("/api/record?genre=Metal")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -99,7 +99,7 @@ class RecordControllerTest {
     @Test
     @DisplayName("Get /record by id")
     void getRecordById() throws Exception {
-        given(recordService.getRecordById(2L)).willReturn(testRecordDtos.iterator().next());
+        given(recordService.getRecordByIdDto(2L)).willReturn(testRecordDtos.iterator().next());
 
         mockRecordController.perform(get("/api/record/2")
                         .contentType(MediaType.APPLICATION_JSON))

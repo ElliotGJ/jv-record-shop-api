@@ -20,6 +20,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(apiError, apiError.getHttpStatus());
     }
 
+    @ExceptionHandler(NotInStockException.class)
+    public ResponseEntity<Object> handleItemNotFoundException(NotInStockException e) {
+        return buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST, e));
+    }
+
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<Object> handleItemNotFoundException(EntityNotFoundException e) {
         return buildResponseEntity(new ApiError(HttpStatus.NOT_FOUND, e));

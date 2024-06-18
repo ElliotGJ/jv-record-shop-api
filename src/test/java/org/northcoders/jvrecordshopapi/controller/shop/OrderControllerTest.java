@@ -2,8 +2,7 @@ package org.northcoders.jvrecordshopapi.controller.shop;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+
 import static org.hamcrest.Matchers.is;
 import org.northcoders.jvrecordshopapi.dto.shop.BasketItemDto;
 import org.northcoders.jvrecordshopapi.dto.shop.OrderDto;
@@ -15,13 +14,11 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -50,7 +47,7 @@ class OrderControllerTest {
 
     @Test
     void getAllOrders() throws Exception {
-        given(orderService.getAllOrders(1L)).willReturn(new HashSet<>(List.of
+        given(orderService.getAllOrdersDto(1L)).willReturn(new HashSet<>(List.of
                 (new OrderDto(1L, 1L, new ArrayList<>(List.of(new BasketItemDto(1L, "record", 1))),
                         "Yep", null, "Bh1ajf", "Bournemotuth", Timestamp.valueOf("2022-01-01 00:00:00")))));
 
@@ -65,7 +62,7 @@ class OrderControllerTest {
 
     @Test
     void getOrderById() throws Exception {
-        given(orderService.getOrderById(1L, 1L)).willReturn(new OrderDto(1L, 1L, new ArrayList<>(List.of(new BasketItemDto(1L, "record", 1))),
+        given(orderService.getOrderByIdDto(1L, 1L)).willReturn(new OrderDto(1L, 1L, new ArrayList<>(List.of(new BasketItemDto(1L, "record", 1))),
                 "Yep", null, "Bh1ajf", "Bournemotuth", Timestamp.valueOf("2022-01-01 00:00:00")));
 
         mockOrderController.perform(get("/api/1/orders/1").contentType("application/json"))

@@ -19,13 +19,16 @@ public class OrderService {
     @Autowired
     Mapper mapper;
 
-    public HashSet<OrderDto> getAllOrders(Long accountId) {
+    @Autowired
+    AccountService accountService;
+
+    public HashSet<OrderDto> getAllOrdersDto(Long accountId) {
         HashSet<OrderDto> orderDtos = new HashSet<>();
-        orderRepository.findAllByAccount_Id(accountId).forEach(order -> orderDtos.add(mapper.toOrderDto(order)));
+        accountService.getAccountById(accountId).getOrders().forEach(order -> orderDtos.add(mapper.toOrderDto(order)));
         return orderDtos;
     }
 
-    public OrderDto getOrderById(Long accountId, Long orderId) {
+    public OrderDto getOrderByIdDto(Long accountId, Long orderId) {
         return mapper.toOrderDto(orderRepository.findByAccount_IdAndId(accountId, orderId).orElseThrow(() -> new EntityNotFoundException("Order not found with ID: " + orderId)));
     }
 }

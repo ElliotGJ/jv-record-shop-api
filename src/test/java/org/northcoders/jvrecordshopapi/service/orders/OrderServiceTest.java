@@ -6,10 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
-import org.northcoders.jvrecordshopapi.dto.shop.BasketItemDto;
 import org.northcoders.jvrecordshopapi.dto.shop.OrderDto;
 import org.northcoders.jvrecordshopapi.model.records.Record;
-import org.northcoders.jvrecordshopapi.model.records.Stock;
 import org.northcoders.jvrecordshopapi.model.shop.*;
 import org.northcoders.jvrecordshopapi.repository.orders.OrderRepository;
 import org.northcoders.jvrecordshopapi.utils.Mapper;
@@ -47,10 +45,10 @@ class OrderServiceTest {
     }
 
     @Test
-    void getAllOrders() {
+    void getAllOrdersDto() {
         when(orderRepository.findAllByAccount_Id(1L)).thenReturn(new ArrayList<>(List.of(order)));
 
-        HashSet<OrderDto> result = orderService.getAllOrders(1L);
+        HashSet<OrderDto> result = orderService.getAllOrdersDto(1L);
 
         assertEquals(1, result.size());
         OrderDto orderDto = result.iterator().next();
@@ -61,10 +59,10 @@ class OrderServiceTest {
     }
 
     @Test
-    void getOrderById() {
+    void getOrderByIdDto() {
         when(orderRepository.findByAccount_IdAndId(1L, 1L)).thenReturn(Optional.ofNullable(order));
 
-        OrderDto result = orderService.getOrderById(1L, 1L);
+        OrderDto result = orderService.getOrderByIdDto(1L, 1L);
 
         assertEquals(1L, result.id());
         assertEquals(1L, result.accountId());
@@ -72,9 +70,9 @@ class OrderServiceTest {
     }
 
     @Test
-    void getOrderByIdThrowsEntityNotFoundException() {
+    void getOrderByIdDtoThrowsEntityNotFoundException() {
         when(orderRepository.findByAccount_IdAndId(1L, 1L)).thenReturn(Optional.empty());
 
-        assertThrows(EntityNotFoundException.class, () -> orderService.getOrderById(1L, 1L));
+        assertThrows(EntityNotFoundException.class, () -> orderService.getOrderByIdDto(1L, 1L));
     }
 }

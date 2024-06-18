@@ -28,21 +28,38 @@ public class RecordService {
     @Autowired
     GenreService genreService;
 
-    public HashSet<RecordDto> getAllRecords() {
+    public HashSet<RecordDto> getAllRecordsDto() {
         HashSet<RecordDto> recordDtos = new HashSet<>();
-        recordRepository.findAll().forEach(record -> recordDtos.add(mapper.toRecordDto(record)));
+        getAllRecords().forEach(record -> recordDtos.add(mapper.toRecordDto(record)));
         return recordDtos;
     }
 
-    public HashSet<RecordDto> getAllRecordsInGenre(String genreName) {
+    public HashSet<Record> getAllRecords() {
+        HashSet<Record> records = new HashSet<>();
+        recordRepository.findAll().forEach(records::add);
+        return records;
+    }
+
+
+    public HashSet<RecordDto> getAllRecordsInGenreDto(String genreName) {
         HashSet<RecordDto> recordDtos = new HashSet<>();
-        genreService.getGenreByName(genreName).getRecords().forEach(record -> recordDtos.add(mapper.toRecordDto(record)));
+        getAllRecordsInGenre(genreName).forEach(record -> recordDtos.add(mapper.toRecordDto(record)));
         return recordDtos;
     }
 
-    public RecordDto getRecordById(long id) {
-        return mapper.toRecordDto(recordRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Record not found with ID: " + id)));
-        }
+    public HashSet<Record> getAllRecordsInGenre(String genreName) {
+        HashSet<Record> records = new HashSet<>();
+        genreService.getGenreByName(genreName).getRecords().forEach(records::add);
+        return records;
+    }
+
+    public RecordDto getRecordByIdDto(long id) {
+        return mapper.toRecordDto(getRecordById(id));
+    }
+
+    public Record getRecordById(long id) {
+        return recordRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Record not found with ID: " + id));
+    }
 
     public RecordDto addNewRecord(RecordCreationDto creationDto) {
         Record record = mapper.creationDtoToRecord(creationDto);

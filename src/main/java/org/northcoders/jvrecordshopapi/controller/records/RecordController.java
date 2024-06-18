@@ -23,7 +23,7 @@ public class RecordController {
 
     @GetMapping
     public ResponseEntity<HashSet<RecordDto>> getAllRecords() {
-        return new ResponseEntity<>(recordService.getAllRecords(), HttpStatus.OK);
+        return new ResponseEntity<>(recordService.getAllRecordsDto(), HttpStatus.OK);
     }
 
     @GetMapping(params = {"name"})
@@ -33,7 +33,7 @@ public class RecordController {
 
     @GetMapping(params = {"genre"})
     public ResponseEntity<HashSet<RecordDto>> getAllRecordsByGenre(@RequestParam(required = false) String genre) {
-        return new ResponseEntity<>(recordService.getAllRecordsInGenre(genre), HttpStatus.OK);
+        return new ResponseEntity<>(recordService.getAllRecordsInGenreDto(genre), HttpStatus.OK);
     }
 
     @GetMapping(params = {"year"})
@@ -48,7 +48,7 @@ public class RecordController {
 
     @GetMapping("/{id}")
     public ResponseEntity<RecordDto> getRecordById(@PathVariable long id) {
-        return new ResponseEntity<>(recordService.getRecordById(id), HttpStatus.OK);
+        return new ResponseEntity<>(recordService.getRecordByIdDto(id), HttpStatus.OK);
     }
 
     @PostMapping

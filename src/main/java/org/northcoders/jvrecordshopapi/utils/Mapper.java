@@ -1,12 +1,14 @@
 package org.northcoders.jvrecordshopapi.utils;
 
 import org.northcoders.jvrecordshopapi.dto.records.*;
+import org.northcoders.jvrecordshopapi.dto.shop.BasketDto;
 import org.northcoders.jvrecordshopapi.dto.shop.BasketItemDto;
 import org.northcoders.jvrecordshopapi.dto.shop.OrderDto;
 import org.northcoders.jvrecordshopapi.model.records.Artist;
 import org.northcoders.jvrecordshopapi.model.records.Genre;
 import org.northcoders.jvrecordshopapi.model.records.Record;
 import org.northcoders.jvrecordshopapi.model.records.Stock;
+import org.northcoders.jvrecordshopapi.model.shop.Basket;
 import org.northcoders.jvrecordshopapi.model.shop.BasketItem;
 import org.northcoders.jvrecordshopapi.model.shop.Order;
 import org.springframework.stereotype.Component;
@@ -77,6 +79,12 @@ public class Mapper {
                 order.getAddress().getCity(),
                 order.getAddress().getPostcode(),
                 order.getOrderDate()
+        );
+    }
+
+    public BasketDto toBasketDto(Basket basket) {
+        return new BasketDto(
+                basket.getItems().stream().map(this::toBasketItemDto).toList()
         );
     }
 
