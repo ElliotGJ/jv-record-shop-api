@@ -39,4 +39,9 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request){
         return buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST, ex.getBindingResult().getAllErrors().get(0).getDefaultMessage()));
     }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<Object> handleItemNotFoundException(RuntimeException e) {
+        return buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST, e));
+    }
 }

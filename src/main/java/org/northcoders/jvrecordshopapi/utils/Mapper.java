@@ -10,6 +10,7 @@ import org.northcoders.jvrecordshopapi.model.shop.*;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
+import java.util.List;
 
 @Component
 public class Mapper {
@@ -101,8 +102,31 @@ public class Mapper {
                 accountCreationDto.email(),
                 null,
                 new HashSet<>(),
-                new Basket(),
+                new HashSet<>(),
                 new HashSet<>()
+        );
+    }
+
+    public AddressDto toAddressDto(Address address) {
+        return new AddressDto(
+                address.getId(),
+                address.getName(),
+                address.getLine1(),
+                address.getLine2(),
+                address.getCity(),
+                address.getPostcode()
+        );
+    }
+
+    public Address addressDtoToAddress(AddressDto addressDto) {
+        return new Address(
+                null,
+                addressDto.name(),
+                addressDto.line1(),
+                addressDto.line2(),
+                addressDto.city(),
+                addressDto.postcode(),
+                null
         );
     }
 

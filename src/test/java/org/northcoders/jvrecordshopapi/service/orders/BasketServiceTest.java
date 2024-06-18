@@ -48,7 +48,9 @@ class BasketServiceTest {
     @BeforeEach
     void setUp() {
         basket = new Basket(1L, new HashSet<>(), new Account(), false);
-        account = new Account(1L, null, null, null, null, null, basket, null);
+        HashSet baskets = new HashSet<>();
+        baskets.add(basket);
+        account = new Account(1L, null, null, null, null, null, baskets, null);
         basket.setAccount(account);
 
     }

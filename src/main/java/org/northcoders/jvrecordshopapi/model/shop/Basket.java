@@ -21,10 +21,10 @@ public class Basket {
     @Column(updatable = false, nullable = false)
     private Long id;
 
-    @OneToMany(mappedBy = "basket", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "basket", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<BasketItem> items;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "account_id", nullable = false, updatable = false)
     private Account account;
 

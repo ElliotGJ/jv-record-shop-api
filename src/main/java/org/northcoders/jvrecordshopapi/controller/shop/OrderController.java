@@ -5,10 +5,7 @@ import org.northcoders.jvrecordshopapi.service.orders.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
 
@@ -27,5 +24,10 @@ public class OrderController {
     @GetMapping("/{orderId}")
     public ResponseEntity<OrderDto> getOrderById(@PathVariable long accountId, @PathVariable long orderId) {
         return new ResponseEntity<>(orderService.getOrderByIdDto(accountId, orderId), HttpStatus.OK);
+    }
+
+    @PostMapping(params = {"addressId"})
+    public ResponseEntity<OrderDto> createOrder(@PathVariable long accountId, @RequestParam long addressId) {
+        return new ResponseEntity<>(orderService.createOrder(accountId, addressId), HttpStatus.CREATED);
     }
 }

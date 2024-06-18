@@ -19,8 +19,8 @@ public class BasketController {
         return new ResponseEntity<>(basketService.getBasketDto(accountId), HttpStatus.OK);
     }
 
-    @PatchMapping("/{recordId}?quantity={quantity}")
-    public ResponseEntity<BasketDto> modifyBasketItem(@PathVariable long accountId, @PathVariable long recordId, @RequestParam(defaultValue = "1", required = false) int quantity) {
+    @PatchMapping
+    public ResponseEntity<BasketDto> modifyBasketItem(@PathVariable long accountId, @RequestParam long recordId, @RequestParam(defaultValue = "1", required = false) int quantity) {
         return new ResponseEntity<>(basketService.modifyBasketItem(accountId, recordId, quantity), HttpStatus.OK);
     }
 

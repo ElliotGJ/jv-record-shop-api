@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Where;
 
 import java.util.List;
 import java.util.Set;
@@ -33,17 +34,18 @@ public class Account {
     private String email;
 
     @Enumerated(value = EnumType.STRING)
-    @Column(nullable = false, columnDefinition = "ENUM('USER', 'ADMIN') default 'USER'")
+    @Column(columnDefinition = "ENUM('USER', 'ADMIN') default 'USER'")
     private Role role;
 
 
     @OneToMany(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Address> addresses;
 
-    @OneToOne(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Basket basket;
+    @OneToMany(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @Where(clause = "ordered = false")
+    private Set<Basket> basket;
 
-    @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Order> orders;
 
 }

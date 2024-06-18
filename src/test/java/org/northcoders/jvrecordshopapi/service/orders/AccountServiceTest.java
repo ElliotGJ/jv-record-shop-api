@@ -11,6 +11,7 @@ import org.northcoders.jvrecordshopapi.utils.Mapper;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -30,7 +31,7 @@ class AccountServiceTest {
 
     @Test
     void getAccountById() {
-        when(accountRepository.findById(1L)).thenReturn(Optional.of(new Account(1L, "John", "John", "John@John.com", null, null, new Basket(), new HashSet<>())));
+        when(accountRepository.findById(1L)).thenReturn(Optional.of(new Account(1L, "John", "John", "John@John.com", null, null, new HashSet<>(List.of(new Basket())), new HashSet<>())));
 
         assertEquals(1L, accountService.getAccountById(1L).getId());
         assertEquals("John", accountService.getAccountById(1L).getFirstName());

@@ -31,7 +31,7 @@ public class BasketService {
     }
 
     public Basket getBasketFromAccountId(Long accountId) {
-        return accountService.getAccountById(accountId).getBasket();
+        return accountService.getAccountById(accountId).getBasket().iterator().next();
     }
 
     public BasketDto modifyBasketItem(Long accountId, Long recordId, int quantity) {
@@ -40,10 +40,19 @@ public class BasketService {
 
         if (quantity == 0) {
             basket.getItems().removeIf(basketItem -> basketItem.getRecord().equals(record));
+        }
 
-        } else if (record.getStock().getStock() < quantity) {
-            throw new NotInStockException("Not enough stock available for record ID: " + recordId);
-        } else {
+        else if (record.getStock().getStock() < quantity) {
+            throw new NotInStockException("Record ID: " + recordId + " only has: " + record.getStock().getStock() + " in stock");
+        }
+
+        else if (basket.getItems().isEmpty()) {
+            BasketItem basketItem = new BasketItem(null, record, quantity, basket);
+            basket.getItems().add(basketItem);
+        }
+
+
+        else {
             basket.getItems().stream().filter(basketItem -> basketItem.getRecord()
                     .equals(record)).findFirst().ifPresentOrElse(basketItem -> basketItem.setQuantity(quantity), () -> {
                 BasketItem basketItem = new BasketItem(null, record, quantity, basket);
