@@ -1,10 +1,14 @@
 package org.northcoders.jvrecordshopapi.utils;
 
 import org.northcoders.jvrecordshopapi.dto.records.*;
+import org.northcoders.jvrecordshopapi.dto.shop.BasketItemDto;
+import org.northcoders.jvrecordshopapi.dto.shop.OrderDto;
 import org.northcoders.jvrecordshopapi.model.records.Artist;
 import org.northcoders.jvrecordshopapi.model.records.Genre;
 import org.northcoders.jvrecordshopapi.model.records.Record;
 import org.northcoders.jvrecordshopapi.model.records.Stock;
+import org.northcoders.jvrecordshopapi.model.shop.BasketItem;
+import org.northcoders.jvrecordshopapi.model.shop.Order;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
@@ -54,4 +58,26 @@ public class Mapper {
     public GenreDto toGenreDto(Genre genre) {
         return new GenreDto(genre.getId(), genre.getName());
     }
+
+    public BasketItemDto toBasketItemDto(BasketItem basketItem) {
+        return new BasketItemDto(
+                basketItem.getRecord().getId(),
+                basketItem.getRecord().getName(),
+                basketItem.getQuantity()
+        );
+    }
+
+    public OrderDto toOrderDto(Order order) {
+        return new OrderDto(
+                order.getId(),
+                order.getAccount().getId(),
+                order.getBasket().getItems().stream().map(this::toBasketItemDto).toList(),
+                order.getAddress().getLine1(),
+                order.getAddress().getLine2(),
+                order.getAddress().getCity(),
+                order.getAddress().getPostcode(),
+                order.getOrderDate()
+        );
+    }
+
 }

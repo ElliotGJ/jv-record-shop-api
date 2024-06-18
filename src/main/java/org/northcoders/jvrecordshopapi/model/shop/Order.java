@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name = "Orders")
@@ -17,6 +18,10 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(updatable = false, nullable = false)
     private Long id;
+
+    @Column(nullable = false)
+    @CreationTimestamp
+    private java.sql.Timestamp orderDate;
 
     @ManyToOne
     @JoinColumn(name = "account_id", nullable = false, updatable = false)
