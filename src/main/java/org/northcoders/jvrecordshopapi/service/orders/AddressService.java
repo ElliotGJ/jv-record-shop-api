@@ -40,6 +40,16 @@ public class AddressService {
         return mapper.toAddressDto(getAddressById(accountId, addressId));
     }
 
+    public Address deleteAddress(Long accountId, Long addressId) {
+        Address address = getAddressById(accountId, addressId);
+        addressRepository.delete(address);
+        return address;
+    }
+
+    public AddressDto deleteAddressDto(Long accountId, Long addressId) {
+        return mapper.toAddressDto(deleteAddress(accountId, addressId));
+    }
+
     public AddressDto createAddress(Long accountId, AddressDto addressDto) {
         Address address = mapper.addressDtoToAddress(addressDto);
         System.out.println(addressDto.line2());

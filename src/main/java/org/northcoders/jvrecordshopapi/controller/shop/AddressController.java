@@ -19,4 +19,10 @@ public class AddressController {
     public ResponseEntity<AddressDto> createAddress(@PathVariable long accountId, @RequestBody AddressDto addressDto) {
         return new ResponseEntity<>(addressService.createAddress(accountId, addressDto), HttpStatus.CREATED);
     }
+
+    @DeleteMapping("/{addressId}")
+    public ResponseEntity<String> deleteAddress(@PathVariable long accountId, @PathVariable long addressId) {
+        addressService.deleteAddress(accountId, addressId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
