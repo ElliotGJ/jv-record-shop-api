@@ -65,7 +65,7 @@ public class GenreService {
         genreRepository.findAllByNameInIgnoreCase(genreNames).forEach(genres::add);
 
         List<String> notFoundGenreNames = genreNames.stream()
-                .filter(genreName -> !genres.stream().map(Genre::getName).toList().contains(genreName))
+                .filter(genreName -> !genres.stream().map(genre -> genre.getName().toLowerCase()).toList().contains(genreName.toLowerCase()))
                 .toList();
         if (!notFoundGenreNames.isEmpty()) {
             notFoundGenreNames.forEach(s -> genres.add(addGenre(s)));

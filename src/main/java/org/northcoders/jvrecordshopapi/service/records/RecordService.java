@@ -115,11 +115,15 @@ public class RecordService {
         }
 
         if (creationDto.artistIds() != null) {
+            record.getArtists().forEach(artist -> artist.getRecords().remove(record));
             record.setArtists(artistService.getArtistsFromIds(creationDto.artistIds()));
+            artistService.getArtistsFromIds(creationDto.artistIds()).forEach(artist -> artist.getRecords().add(record));
         }
 
         if (creationDto.genres() != null) {
+            record.getGenres().forEach(genre -> genre.getRecords().remove(record));
             record.setGenres(genreService.getGenresFromName(creationDto.genres()));
+            genreService.getGenresFromName(creationDto.genres()).forEach(genre -> genre.getRecords().add(record));
         }
 
         if (creationDto.stock() != null && creationDto.stock() >= 0) {
