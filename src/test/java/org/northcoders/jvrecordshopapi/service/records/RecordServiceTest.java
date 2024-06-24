@@ -63,15 +63,15 @@ class RecordServiceTest {
         testRecords.add(record3);
 
         testRecordDtos = new ArrayList<>();
-        RecordDto recordDto1 = new RecordDto(1L, "Record One", new ArrayList<>(List.of()),
+        RecordDto recordDto1 = new RecordDto(1L, "Record One", new HashMap<>(),
                 Year.of(2022), new ArrayList<>(List.of("")), 0);
         testRecordDtos.add(recordDto1);
 
-        RecordDto recordDto2 = new RecordDto(2L, "Record Two", new ArrayList<>(List.of()),
+        RecordDto recordDto2 = new RecordDto(2L, "Record Two", new HashMap<>(),
                 Year.of(2016), new ArrayList<>(List.of("Metal")), 0);
         testRecordDtos.add(recordDto2);
 
-        RecordDto recordDto3 = new RecordDto(3L, "Record Three", new ArrayList<>(List.of()),
+        RecordDto recordDto3 = new RecordDto(3L, "Record Three", new HashMap<>(),
                 Year.of(2020), new ArrayList<>(List.of("Metal")), 0);
         testRecordDtos.add(recordDto3);
     }
@@ -151,7 +151,7 @@ class RecordServiceTest {
     void updateRecordTest() throws Exception {
         Record record = testRecords.get(1);
         RecordDto recordDto = testRecordDtos.get(1);
-        RecordDto updatedRecordDto = new RecordDto(2L, "Record Two", new ArrayList<>(),
+        RecordDto updatedRecordDto = new RecordDto(2L, "Record Two", new HashMap<>(),
                 Year.of(2016), new ArrayList<>(List.of("Metal")), 0);
         given(recordRepository.findById(2L)).willReturn(Optional.of(record));
         given(genreService.getGenresFromName(new ArrayList<>(List.of("Metal")))).willReturn(genres);

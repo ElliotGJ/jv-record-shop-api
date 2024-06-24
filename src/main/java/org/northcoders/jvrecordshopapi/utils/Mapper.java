@@ -9,8 +9,10 @@ import org.northcoders.jvrecordshopapi.model.records.Stock;
 import org.northcoders.jvrecordshopapi.model.shop.*;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class Mapper {
@@ -19,7 +21,7 @@ public class Mapper {
         return new RecordDto(
                 record.getId(),
                 record.getName(),
-                record.getArtists().stream().map(Artist::getName).toList(),
+                new HashMap<>(record.getArtists().stream().collect(Collectors.toMap(Artist::getId, Artist::getName))),
                 record.getReleaseYear(),
                 record.getGenres().stream().map(Genre::getName).toList(),
                 record.getStock().getStock());
