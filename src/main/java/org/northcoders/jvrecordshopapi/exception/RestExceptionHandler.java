@@ -20,6 +20,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(apiError, apiError.getHttpStatus());
     }
 
+    @ExceptionHandler(NotInStockException.class)
+    public ResponseEntity<Object> handleItemNotFoundException(NotInStockException e) {
+        return buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST, e));
+    }
+
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<Object> handleItemNotFoundException(EntityNotFoundException e) {
         return buildResponseEntity(new ApiError(HttpStatus.NOT_FOUND, e));
@@ -33,5 +38,10 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request){
         return buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST, ex.getBindingResult().getAllErrors().get(0).getDefaultMessage()));
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<Object> handleItemNotFoundException(RuntimeException e) {
+        return buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST, e));
     }
 }
