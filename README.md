@@ -4,9 +4,9 @@ This project is a RESTful API service for a record shop I'm creating to practice
 
 ## Features Implemented
 - CRUD operations for Artists, Records, Genres, and Stock.
+- Cart and Customer endpoints and models
 
 ## WIP Features
-- Cart and Customer endpoints and models
 - Implementing Spring security
 
 ## Technologies
